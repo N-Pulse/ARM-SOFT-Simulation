@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+    <xacro:include filename="useful_tags.xacro" />
+
+        <link name="world" />
+
+        <xacro:property name="arm_length" value="0.174" />
+        <xacro:property name="arm_width" value="0.065" />
+        <xacro:property name="arm_depth" value="0.101" />
+
+        <joint name="base_joint" type="fixed">
+
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+
+            <parent link="world"/>
+
+            <child link="arm_link"/>        
+
+        </joint>
+
+
+        <link name="arm_link">
+
+            <visual>
+
+                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+
+                <geometry>
+
+                    <box size="${arm_depth} ${arm_width} ${arm_length}" /> 
+
+                </geometry>
+
+                <material name="green" />
+
+            </visual>
+
+            <collision>
+
+                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+
+                <geometry>
+
+                    <box size="${arm_depth} ${arm_width} ${arm_length}" /> 
+
+                </geometry>
+
+            </collision>
+
+            <xacro:inertial_box mass="1.0" x="${arm_depth}" y="${arm_width}" z="${arm_length}">
+
+                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+
+            </xacro:inertial_box>
+
+        </link>
+
+
+        <xacro:property name="wrist_length" value="0.174" />
+
+        <joint name="arm_to_wrist_joint" type="revolute">
+
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+
+            <parent link="arm_link"/>
+
+            <child link="wrist_link"/> 
+
+            <axis xyz= "0 1 0"/>
+
+            <limit lower="0" upper="${pi}" velocity="100" effort="100"/>      
+
+        </joint>
+    
+
+
+        <link name="wrist_link">
+
+            <visual>
+
+                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
+
+                <geometry>
+                    
+                    <sphere radius="${wrist_length/2}"/>
+
+                </geometry>
+
+                <material name="blue" />
+
+            </visual>
+
+            <collision>
+
+                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
+
+                <geometry>
+                    
+                    <sphere radius="${wrist_length/2}"/>
+
+                </geometry>
+
+            </collision>
+
+            <xacro:inertial_sphere mass="0.1" radius="${wrist_length/2}">
+
+                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
+
+            </xacro:inertial_sphere>
+
+        </link>
+
+        
+
+</robot>
