@@ -1,117 +1,408 @@
 <?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+<xacro:include filename="useful_tags.xacro" />
 
-    <xacro:include filename="useful_tags.xacro" />
+  <!-- ===== LINKS (base & palm unchanged) ===== -->
+  <link name="world" />
+  
+  <xacro:property name="base_length" value="0.174" />
+  <xacro:property name="base_width" value="0.065" />
+  <xacro:property name="base_depth" value="0.101" />
+  
+  <link name="base_link">
+    <visual>
+        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_depth}">
+        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-        <link name="world" />
+  <xacro:property name="wrist_radius" value="${base_width/2}" />
 
-        <xacro:property name="arm_length" value="0.174" />
-        <xacro:property name="arm_width" value="0.065" />
-        <xacro:property name="arm_depth" value="0.101" />
+    <link name="wrist_link">
+    <visual>
+        <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${wrist_radius}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
+        <geometry><sphere radius="${wrist_radius}"/></geometry>
+    </collision>
+    <xacro:inertial_sphere mass="0.2" radius="${wrist_radius}">
+        <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_sphere>
+  </link>
 
-        <joint name="base_joint" type="fixed">
+  <xacro:property name="palm_length" value="0.068" />
+  <xacro:property name="palm_width" value="0.098" />
+  <xacro:property name="palm_depth" value="0.019" />
 
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+  <link name="palm_link">
+    <visual>
+        <origin xyz="${palm_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${palm_length} ${palm_width} ${palm_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${palm_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${palm_length} ${palm_width} ${palm_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.2" x="${palm_length}" y="${palm_width}" z="${palm_depth}">
+        <origin xyz="${palm_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-            <parent link="world"/>
+  <!-- ===== FINGER & THUMB LINKS (all boxes 0.02 x 0.05 x 0.02) ===== -->
+  <!-- Index -->
+  
+  <xacro:property name="index_proximal_length" value="0.025" />
+  <xacro:property name="index_proximal_width" value="0.015" />
+  <xacro:property name="index_proximal_depth" value="0.012" />
+  
+  <link name="index_proximal_link">
+    <visual>
+        <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${index_proximal_length} ${index_proximal_width} ${index_proximal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${index_proximal_length} ${index_proximal_width} ${index_proximal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${index_proximal_length}" y="${index_proximal_width}" z="${index_proximal_depth}">
+        <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+  
+  <xacro:property name="index_middle_length" value="0.05" />
+  <xacro:property name="index_middle_width" value="0.015" />
+  <xacro:property name="index_middle_depth" value="0.012" />
 
-            <child link="arm_link"/>        
+  <link name="index_middle_link">
+    <visual>
+        <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.02" x="${index_middle_length}" y="${index_middle_width}" z="${index_middle_depth}">
+        <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+  
+  <!--<link name="index_distal_link">
+    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
+    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
+    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>-->
 
-        </joint>
+  <!-- Middle -->
+  <xacro:property name="middle_proximal_length" value="0.025" />
+  <xacro:property name="middle_proximal_width" value="0.015" />
+  <xacro:property name="middle_proximal_depth" value="0.012" />
+  
+  <link name="middle_proximal_link">
+    <visual>
+        <origin xyz="${middle_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${middle_proximal_length} ${middle_proximal_width} ${middle_proximal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${middle_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${middle_proximal_length} ${middle_proximal_width} ${middle_proximal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${middle_proximal_length}" y="${middle_proximal_width}" z="${middle_proximal_depth}">
+        <origin xyz="${middle_proximal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
+  <xacro:property name="middle_middle_length" value="0.05" />
+  <xacro:property name="middle_middle_width" value="0.015" />
+  <xacro:property name="middle_middle_depth" value="0.012" />
 
-        <link name="arm_link">
+  <link name="middle_middle_link">
+    <visual>
+        <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.02" x="${middle_middle_length}" y="${middle_middle_width}" z="${middle_middle_depth}">
+        <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+  <!--<link name="middle_distal_link">
+    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
+    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
+    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>-->
 
-            <visual>
+  <!-- Ring -->
+  <xacro:property name="ring_proximal_length" value="0.025" />
+  <xacro:property name="ring_proximal_width" value="0.015" />
+  <xacro:property name="ring_proximal_depth" value="0.012" />
+  
+  <link name="ring_proximal_link">
+    <visual>
+        <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ring_proximal_length} ${ring_proximal_width} ${ring_proximal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ring_proximal_length} ${ring_proximal_width} ${ring_proximal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${ring_proximal_length}" y="${ring_proximal_width}" z="${ring_proximal_depth}">
+        <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+  <xacro:property name="ring_middle_length" value="0.05" />
+  <xacro:property name="ring_middle_width" value="0.015" />
+  <xacro:property name="ring_middle_depth" value="0.012" />
 
-                <geometry>
+  <link name="ring_middle_link">
+    <visual>
+        <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.02" x="${ring_middle_length}" y="${ring_middle_width}" z="${ring_middle_depth}">
+        <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+  <!--<link name="ring_distal_link">
+    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
+    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
+    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>-->
 
-                    <box size="${arm_depth} ${arm_width} ${arm_length}" /> 
+  <!-- Little -->
+  <xacro:property name="little_proximal_length" value="0.025" />
+  <xacro:property name="little_proximal_width" value="0.015" />
+  <xacro:property name="little_proximal_depth" value="0.012" />
+  
+  <link name="little_proximal_link">
+    <visual>
+        <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${little_proximal_length} ${little_proximal_width} ${little_proximal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${little_proximal_length} ${little_proximal_width} ${little_proximal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${little_proximal_length}" y="${little_proximal_width}" z="${little_proximal_depth}">
+        <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-                </geometry>
+  <xacro:property name="little_middle_length" value="0.05" />
+  <xacro:property name="little_middle_width" value="0.015" />
+  <xacro:property name="little_middle_depth" value="0.012" />
 
-                <material name="green" />
+  <link name="little_middle_link">
+    <visual>
+        <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.02" x="${little_middle_length}" y="${little_middle_width}" z="${little_middle_depth}">
+        <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+  <!--<link name="little_distal_link">
+    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
+    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
+    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>-->
 
-            </visual>
+  <!-- Thumb -->
+  <xacro:property name="thumb_metacarpal_length" value="0.028" />
+  <xacro:property name="thumb_metacarpal_width" value="0.015" />
+  <xacro:property name="thumb_metacarpal_depth" value="0.012" />
 
-            <collision>
+  <link name="thumb_metacarpal_link">
+    <visual>
+        <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
+        <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+  <xacro:property name="thumb_proximal_length" value="0.025" />
+  <xacro:property name="thumb_proximal_width" value="0.015" />
+  <xacro:property name="thumb_proximal_depth" value="0.012" />
 
-                <geometry>
+  <link name="thumb_proximal_link">
+    <visual>
+        <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${thumb_proximal_length}" y="${thumb_proximal_width}" z="${thumb_proximal_depth}">
+        <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-                    <box size="${arm_depth} ${arm_width} ${arm_length}" /> 
+  <xacro:property name="thumb_distal_length" value="0.020" />
+  <xacro:property name="thumb_distal_width" value="0.015" />
+  <xacro:property name="thumb_distal_depth" value="0.012" />
 
-                </geometry>
+  <link name="thumb_distal_link">
+    <visual>
+        <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
+    </visual>
+    <collision>
+        <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
+    </collision>
+    <xacro:inertial_box mass="0.01" x="${thumb_distal_length}" y="${thumb_distal_width}" z="${thumb_distal_depth}">
+        <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
 
-            </collision>
+  <!-- ===== JOINTS ===== -->
+  <!-- World → Base -->
+  <joint name="joint_world_to_base" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="base_link"/>        
+    </joint>
 
-            <xacro:inertial_box mass="1.0" x="${arm_depth}" y="${arm_width}" z="${arm_length}">
+  <!-- Base → Wrist -->
+  <joint name="joint_base_to_wrist" type="fixed">
+    <parent link="base_link"/>
+    <child  link="wrist_link"/>
+    <origin xyz="${base_length} 0 0" rpy="0 0 0"/>
+  </joint>
 
-                <origin xyz="0 0 ${arm_length/2}" rpy="0 0 0"/>
+  <!-- Wrist → Palm -->
+  <joint name="joint_wrist_to_palm" type="revolute">
+    <parent link="wrist_link"/>
+    <child  link="palm_link"/>
+    <origin xyz="${wrist_radius*2} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="5" velocity="5"/>
+  </joint>
 
-            </xacro:inertial_box>
+  <!-- MCP X and Y positions for each finger relative to palm_link -->
+  <xacro:property name="mcp_x" value="${palm_length}" />
 
-        </link>
+  <xacro:property name="finger_width" value="${index_proximal_length}" />
+  <xacro:property name="spacing_area" value="${palm_width - finger_width * 4}"/>
+  <xacro:property name="d" value="${spacing_area / 5}"/>
 
+  <xacro:property name="index_mcp_y" value="${-palm_width / 2 + d + finger_width / 2}" />
+  <xacro:property name="middle_mcp_y" value="${-palm_width / 2 + d*2 + finger_width*1.5}" />
+  <xacro:property name="ring_mcp_y" value="${-palm_width / 2 + d*3 + finger_width*2.5}" />
+  <xacro:property name="little_mcp_y" value="${-palm_width / 2 + d*4 + finger_width*3.5}" />
 
-        <xacro:property name="wrist_length" value="0.174" />
+  <!-- Index -->
+  <joint name="joint_index_mcp" type="revolute">
+    <parent link="palm_link"/><child link="index_proximal_link"/>
+    <origin xyz="${mcp_x} ${index_mcp_y} 0.0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="3" velocity="5"/>
+  </joint>
+  <joint name="joint_index_pip" type="revolute">
+    <parent link="index_proximal_link"/><child link="index_middle_link"/>
+    <origin xyz="${index_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
+  <!--<joint name="joint_index_dip" type="revolute">
+    <parent link="index_middle_link"/><child link="index_distal_link"/>
+    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>-->
 
-        <joint name="arm_to_wrist_joint" type="revolute">
+  <!-- Middle -->
+  <joint name="joint_middle_mcp" type="revolute">
+    <parent link="palm_link"/><child link="middle_proximal_link"/>
+    <origin xyz="${mcp_x} ${middle_mcp_y} 0.0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="3" velocity="5"/>
+  </joint>
+  <joint name="joint_middle_pip" type="revolute">
+    <parent link="middle_proximal_link"/><child link="middle_middle_link"/>
+    <origin xyz="${middle_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
+  <!--<joint name="joint_middle_dip" type="revolute">
+    <parent link="middle_middle_link"/><child link="middle_distal_link"/>
+    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>-->
 
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+  <!-- Ring -->
+  <joint name="joint_ring_mcp" type="revolute">
+    <parent link="palm_link"/><child link="ring_proximal_link"/>
+    <origin xyz="${mcp_x} ${ring_mcp_y} 0.0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="3" velocity="5"/>
+  </joint>
+  <joint name="joint_ring_pip" type="revolute">
+    <parent link="ring_proximal_link"/><child link="ring_middle_link"/>
+    <origin xyz="${ring_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
+  <!--<joint name="joint_ring_dip" type="revolute">
+    <parent link="ring_middle_link"/><child link="ring_distal_link"/>
+    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>-->
 
-            <parent link="arm_link"/>
+  <!-- Little -->
+  <joint name="joint_little_mcp" type="revolute">
+    <parent link="palm_link"/><child link="little_proximal_link"/>
+    <origin xyz="${mcp_x} ${little_mcp_y} 0.0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="3" velocity="5"/>
+  </joint>
+  <joint name="joint_little_pip" type="revolute">
+    <parent link="little_proximal_link"/><child link="little_middle_link"/>
+    <origin xyz="${little_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
+  <!--<joint name="joint_little_dip" type="revolute">
+    <parent link="little_middle_link"/><child link="little_distal_link"/>
+    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>-->
 
-            <child link="wrist_link"/> 
-
-            <axis xyz= "0 1 0"/>
-
-            <limit lower="0" upper="${pi}" velocity="100" effort="100"/>      
-
-        </joint>
-    
-
-
-        <link name="wrist_link">
-
-            <visual>
-
-                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
-
-                <geometry>
-                    
-                    <sphere radius="${wrist_length/2}"/>
-
-                </geometry>
-
-                <material name="blue" />
-
-            </visual>
-
-            <collision>
-
-                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
-
-                <geometry>
-                    
-                    <sphere radius="${wrist_length/2}"/>
-
-                </geometry>
-
-            </collision>
-
-            <xacro:inertial_sphere mass="0.1" radius="${wrist_length/2}">
-
-                <origin xyz="0 0 ${wrist_length/2}" rpy="0 0 0"/>
-
-            </xacro:inertial_sphere>
-
-        </link>
-
-        
+  <!-- Thumb (diagonal; same 10 cm joint spacing) -->
+  <joint name="joint_thumb_cmc" type="revolute">
+    <parent link="palm_link"/><child link="thumb_metacarpal_link"/>
+    <origin xyz="${thumb_metacarpal_width/2} ${-(palm_width/2.5)} 0.00" rpy="0 0 -0.70"/><axis xyz="0 1 0"/>
+    <limit lower="-0.40" upper="1.20" effort="3" velocity="5"/>
+  </joint>
+  <joint name="joint_thumb_mcp" type="revolute">
+    <parent link="thumb_metacarpal_link"/><child link="thumb_proximal_link"/>
+    <origin xyz="${thumb_metacarpal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
+  <joint name="joint_thumb_ip" type="revolute">
+    <parent link="thumb_proximal_link"/><child link="thumb_distal_link"/>
+    <origin xyz="${thumb_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
+  </joint>
 
 </robot>
