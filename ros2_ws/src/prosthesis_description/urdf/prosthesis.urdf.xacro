@@ -96,12 +96,6 @@
         <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-  
-  <!--<link name="index_distal_link">
-    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
-    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
-    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
-  </link>-->
 
   <!-- Middle -->
   <xacro:property name="middle_proximal_length" value="0.025" />
@@ -139,11 +133,6 @@
         <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-  <!--<link name="middle_distal_link">
-    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
-    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
-    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
-  </link>-->
 
   <!-- Ring -->
   <xacro:property name="ring_proximal_length" value="0.025" />
@@ -181,11 +170,6 @@
         <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-  <!--<link name="ring_distal_link">
-    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
-    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
-    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
-  </link>-->
 
   <!-- Little -->
   <xacro:property name="little_proximal_length" value="0.025" />
@@ -223,11 +207,6 @@
         <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-  <!--<link name="little_distal_link">
-    <visual><geometry><box size="0.02 0.05 0.02"/></geometry></visual>
-    <collision><geometry><box size="0.02 0.05 0.02"/></geometry></collision>
-    <inertial><mass value="0.012"/><inertia ixx="0.00006" iyy="0.00006" izz="0.00006" ixy="0" ixz="0" iyz="0"/></inertial>
-  </link>-->
 
   <!-- Thumb -->
   <xacro:property name="thumb_metacarpal_length" value="0.028" />
@@ -331,11 +310,6 @@
     <origin xyz="${index_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
     <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
   </joint>
-  <!--<joint name="joint_index_dip" type="revolute">
-    <parent link="index_middle_link"/><child link="index_distal_link"/>
-    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
-    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
-  </joint>-->
 
   <!-- Middle -->
   <joint name="joint_middle_mcp" type="revolute">
@@ -348,11 +322,6 @@
     <origin xyz="${middle_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
     <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
   </joint>
-  <!--<joint name="joint_middle_dip" type="revolute">
-    <parent link="middle_middle_link"/><child link="middle_distal_link"/>
-    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
-    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
-  </joint>-->
 
   <!-- Ring -->
   <joint name="joint_ring_mcp" type="revolute">
@@ -365,11 +334,6 @@
     <origin xyz="${ring_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
     <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
   </joint>
-  <!--<joint name="joint_ring_dip" type="revolute">
-    <parent link="ring_middle_link"/><child link="ring_distal_link"/>
-    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
-    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
-  </joint>-->
 
   <!-- Little -->
   <joint name="joint_little_mcp" type="revolute">
@@ -382,13 +346,8 @@
     <origin xyz="${little_proximal_length} 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
     <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
   </joint>
-  <!--<joint name="joint_little_dip" type="revolute">
-    <parent link="little_middle_link"/><child link="little_distal_link"/>
-    <origin xyz="0 0.06 0" rpy="0 0 0"/><axis xyz="1 0 0"/>
-    <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
-  </joint>-->
 
-  <!-- Thumb (diagonal; same 10 cm joint spacing) -->
+  <!-- Thumb (diagonal) -->
   <joint name="joint_thumb_cmc" type="revolute">
     <parent link="palm_link"/><child link="thumb_metacarpal_link"/>
     <origin xyz="${thumb_metacarpal_width/2} ${-(palm_width/2.5)} 0.00" rpy="0 0 -0.70"/><axis xyz="0 1 0"/>
