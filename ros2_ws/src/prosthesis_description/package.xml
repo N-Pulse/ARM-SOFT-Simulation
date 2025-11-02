@@ -11,6 +11,8 @@
 
   <exec_depend>launch</exec_depend>
   <exec_depend>xacro</exec_depend>
+  <depend>gazebo_ros_pkgs</depend>
+  <depend>robot_state_publisher</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
