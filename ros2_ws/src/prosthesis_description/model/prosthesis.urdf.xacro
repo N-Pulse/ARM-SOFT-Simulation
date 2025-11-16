@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
 
 <xacro:include filename="useful_tags.xacro" />
-<xacro:include filename="prosthesis.gazebo" />
+<xacro:include filename="prosthesis.gazebo.urdf" />
 
   <!-- ===== LINKS (base & palm unchanged) ===== -->
   <link name="world" />

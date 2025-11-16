@@ -8,21 +8,17 @@ import xacro
 
 
 def generate_launch_description():
-    pkg_name = 'prosthesis_description'
-    file_subpath = 'model/prosthesis.urdf.xacro'
     
-    # Declare use_sim_time argument
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='false',
-        description='Use simulation time if true'
+        default_value='false' # sim time not necessary in Rviz for example
     )
     
-    # Use xacro to process the file
-    xacro_file = os.path.join(get_package_share_directory(pkg_name), file_subpath)
+    # Use xacro to process the URDF
+    xacro_file = os.path.join(get_package_share_directory('prosthesis_description'), 'model/prosthesis.urdf.xacro')
     robot_description_raw = xacro.process_file(xacro_file).toxml()
     
-    # Robot State Publisher node
+    # run Robot State Publisher node
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',

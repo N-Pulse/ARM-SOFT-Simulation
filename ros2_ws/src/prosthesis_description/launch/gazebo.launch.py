@@ -29,6 +29,17 @@ def generate_launch_description():
         launch_arguments={'gz_args': '-r empty.sdf'}.items()
     )
     
+    # Clock bridge - converts Gazebo clock to ROS clock
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        output='screen',
+        parameters=[{
+            'use_sim_time': True
+        }]
+    )
+    
     # Spawn entity in Gazebo
     spawn_entity = TimerAction(
         period=5.0,  # Wait 5 seconds for Gazebo to start
@@ -43,6 +54,9 @@ def generate_launch_description():
                     '-y', '0.0', 
                     '-z', '0.2'
                 ],
+                parameters=[{
+                    'use_sim_time': True
+                }],
                 output='screen'
             )
         ]
@@ -50,6 +64,7 @@ def generate_launch_description():
     
     return LaunchDescription([
         gazebo,
+        clock_bridge,
         robot_state_publisher_launch,
         spawn_entity
     ])

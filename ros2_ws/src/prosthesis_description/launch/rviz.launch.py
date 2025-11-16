@@ -21,9 +21,9 @@ def generate_launch_description():
     )
     
     # RViz configuration file
-    rviz_config_file = os.path.join(pkg_share, 'rviz', 'prosthesis.rviz')
+    rviz_config_file = os.path.join(pkg_share, 'config', 'prosthesis.rviz.yaml')
     
-    # RViz node
+    # run RViz node
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -33,7 +33,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': False}]
     )
     
-    # Joint State Publisher GUI node
+    # run Joint State Publisher GUI node
     joint_state_publisher_gui_node = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
