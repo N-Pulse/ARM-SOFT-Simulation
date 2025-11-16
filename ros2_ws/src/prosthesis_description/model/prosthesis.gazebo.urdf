@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ===== GAZEBO ROS2 CONTROL PLUGIN ===== -->
+  <!-- Bridges Gazebo simulation to ROS2 controller manager
+  by reading YAML config file (update rates, controllers to load, namespaces)
+  and initializes hardware interface which exposes joint read/write methods to ros2_control -->
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find prosthesis_description)/config/prosthesis_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+  
+  <!-- ===== ROS2 CONTROL INTERFACE ===== -->
+  <!-- Tells control_manager what hardware plugin to instanciate,
+   which joint exists and which interface each joint exposes -->
+
+  <ros2_control name="GazeboSimROS2ControlPlugin" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <!-- Wrist Joint -->
+    <joint name="joint_wrist_to_palm">
+      <command_interface name="position"/> <!-- command controller will send for position control -->
+      <state_interface name="position"/> <!-- state controller can read -->
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Index Finger Joints -->
+    <joint name="joint_index_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_index_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Middle Finger Joints -->
+    <joint name="joint_middle_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_middle_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Ring Finger Joints -->
+    <joint name="joint_ring_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_ring_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Little Finger Joints -->
+    <joint name="joint_little_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_little_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Thumb Joints -->
+    <joint name="joint_thumb_cmc">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_thumb_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_thumb_ip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+
+    <!-- ===== GAZEBO TAGS ===== -->
+
+  <xacro:property name="base_wrist_friction" value="0.8" />
+  <xacro:property name="palm_fingers_friction" value="1" />
+  <xacro:property name="rigid_stiffness_default" value="1000000" />
+  <xacro:property name="damping_default" value="200" /> <!-- contact damping prevents bouncing and oscillation. kd is approximately 2*sqrt(kp*m) --> 
+  <xacro:property name="min_depth_default" value="0.001" />
+  <xacro:property name="max_velocity_default" value="1" />
+
+  <!-- Base and palm Gazebo tags -->
+  
+  <gazebo reference="base_link">
+    <material>Gazebo/Gray</material> <!-- Visual material used in Gazebo GUI -->
+    <mu1>${base_wrist_friction}</mu1> <!-- Friction coefficients -->
+    <mu2>${base_wrist_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp> <!-- Contact stiffness -->
+    <kd>${damping_default}</kd> <!-- Contact damping (prevents bounce)-->
+    <minDepth>${min_depth_default}</minDepth> <!-- Minimum depth for contact -->
+    <maxVel>${max_velocity_default}</maxVel> <!-- Maximum velocity for contact -->
+  </gazebo>
+
+  <gazebo reference="wrist_link">
+    <material>Gazebo/White</material>
+    <mu1>${base_wrist_friction}</mu1>
+    <mu2>${base_wrist_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+  </gazebo>
+
+  <gazebo reference="palm_link">
+    <material>Gazebo/Orange</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+  </gazebo>
+
+  <!-- Index finger Gazebo tags -->
+  
+  <gazebo reference="index_proximal_link">
+    <material>Gazebo/SkyBlue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="index_middle_link">
+    <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <!-- Middle finger Gazebo tags -->
+  
+  <gazebo reference="middle_proximal_link">
+    <material>Gazebo/SkyBlue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="middle_middle_link">
+    <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <!-- Ring finger Gazebo tags -->
+  
+  <gazebo reference="ring_proximal_link">
+    <material>Gazebo/SkyBlue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="ring_middle_link">
+    <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp> 
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <!-- Little finger Gazebo tags -->
+  
+  <gazebo reference="little_proximal_link">
+    <material>Gazebo/SkyBlue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="little_middle_link">
+    <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <!-- Thumb Gazebo tags -->
+  
+  <gazebo reference="thumb_metacarpal_link">
+    <material>Gazebo/Green</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="thumb_proximal_link">
+    <material>Gazebo/Green</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="thumb_distal_link">
+    <material>Gazebo/Green</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+</robot>

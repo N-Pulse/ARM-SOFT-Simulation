@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
 
 <xacro:include filename="useful_tags.xacro" />
+<xacro:include filename="prosthesis.gazebo.urdf" />
 
   <!-- ===== LINKS (base & palm unchanged) ===== -->
   <link name="world" />
@@ -220,7 +221,7 @@
     </visual>
     <collision>
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
-        <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
+        <geometry><box size="0 0 0"/></geometry>
     </collision>
     <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
