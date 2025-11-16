@@ -9,7 +9,8 @@ The aim of this project is to simulate the prosthesis using a physics engine tha
 Visualization of the prosthesis in the Rviz tool.
 Moving joints via GUI.
 
-![Screenshot from 2025-10-23 13-35-03.png](attachment:455286d6-7356-4181-8cac-95560b43c651:Screenshot_from_2025-10-23_13-35-03.png)
+<img width="1231" height="846" alt="image" src="https://github.com/user-attachments/assets/ab08f4cc-8ec9-4fe3-a6e3-a03b8954f456" />
+
 
 ### Gazebo
 Visualization of the prosthesis in the Gazebo physics engine.
