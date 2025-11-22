@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <!-- ==== PROSTHESIS VALUES ==== -->
+    
+    <!-- Dimensions for each link -->
+    <xacro:property name="base_length" value="0.174" />
+    <xacro:property name="base_width" value="0.065" />
+    <xacro:property name="base_depth" value="0.101" />
+    <xacro:property name="palm_length" value="0.068" />
+    <xacro:property name="palm_width" value="0.098" />
+    <xacro:property name="palm_depth" value="0.019" />
+    <xacro:property name="index_proximal_length" value="0.025" />
+    <xacro:property name="index_proximal_width" value="0.015" />
+    <xacro:property name="index_proximal_depth" value="0.012" />
+    <xacro:property name="index_middle_length" value="0.05" />
+    <xacro:property name="index_middle_width" value="0.015" />
+    <xacro:property name="index_middle_depth" value="0.012" />
+    <xacro:property name="middle_proximal_length" value="0.025" />
+    <xacro:property name="middle_proximal_width" value="0.015" />
+    <xacro:property name="middle_proximal_depth" value="0.012" />
+    <xacro:property name="ring_proximal_length" value="0.025" />
+    <xacro:property name="ring_proximal_width" value="0.015" />
+    <xacro:property name="ring_proximal_depth" value="0.012" />
+    <xacro:property name="ring_middle_length" value="0.05" />
+    <xacro:property name="ring_middle_width" value="0.015" />
+    <xacro:property name="ring_middle_depth" value="0.012" />
+    <xacro:property name="little_proximal_length" value="0.025" />
+    <xacro:property name="little_proximal_width" value="0.015" />
+    <xacro:property name="little_proximal_depth" value="0.012" />
+    <xacro:property name="little_middle_length" value="0.05" />
+    <xacro:property name="little_middle_width" value="0.015" />
+    <xacro:property name="little_middle_depth" value="0.012" />
+    <xacro:property name="thumb_metacarpal_length" value="0.028" />
+    <xacro:property name="thumb_metacarpal_width" value="0.015" />
+    <xacro:property name="thumb_metacarpal_depth" value="0.012" />
+    <xacro:property name="thumb_proximal_length" value="0.025" />
+    <xacro:property name="thumb_proximal_width" value="0.015" />
+    <xacro:property name="thumb_proximal_depth" value="0.012" />
+    <xacro:property name="thumb_distal_length" value="0.020" />
+    <xacro:property name="thumb_distal_width" value="0.015" />
+    <xacro:property name="thumb_distal_depth" value="0.012" />
+
+    <!-- MCP X and Y positions for each finger relative to palm_link -->
+    <xacro:property name="mcp_x" value="${palm_length}" />
+
+    <xacro:property name="finger_width" value="${index_proximal_length}" />
+    <xacro:property name="spacing_area" value="${palm_width - finger_width * 4}"/>
+    <xacro:property name="d" value="${spacing_area / 5}"/>
+
+    <xacro:property name="index_mcp_y" value="${-palm_width / 2 + d + finger_width / 2}" />
+    <xacro:property name="middle_mcp_y" value="${-palm_width / 2 + d*2 + finger_width*1.5}" />
+    <xacro:property name="ring_mcp_y" value="${-palm_width / 2 + d*3 + finger_width*2.5}" />
+    <xacro:property name="little_mcp_y" value="${-palm_width / 2 + d*4 + finger_width*3.5}" />
+
+
+    <!-- density is to be determined for each mesh,
+    then mass needs to be computed using mesh's geometry. And so for each link-->
+    <xacro:property name="material_density" value="2710.0"/>
+    <xacro:property name="mass" value="0.2"/>
+
+    <!-- ===== MATERIAL DEFINITIONS ===== -->
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="green">
+        <color rgba="0.2 1 0.2 1"/>
+    </material>
+ 
+
+    <!-- ==== STANDARD MOMENTS OF INERTIA https://en.wikipedia.org/wiki/List_of_moments_of_inertia ====-->
+
+
+    <xacro:macro name="inertial_sphere" params="mass radius *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}" />
+            <inertia ixx="${(2/5) * mass * (radius*radius)}" ixy="0.0" ixz="0.0"
+                    iyy="${(2/5) * mass * (radius*radius)}" iyz="0.0"
+                    izz="${(2/5) * mass * (radius*radius)}" />
+        </inertial>
+    </xacro:macro>  
+
+    <xacro:macro name="inertial_box" params="mass x y z *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}" />
+            <inertia ixx="${(1/12) * mass * (y*y+z*z)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * mass * (x*x+z*z)}" iyz="0.0"
+                    izz="${(1/12) * mass * (x*x+y*y)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="inertial_cylinder" params="mass length radius *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}" />
+            <inertia ixx="${(1/12) * mass * (3*radius*radius + length*length)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * mass * (3*radius*radius + length*length)}" iyz="0.0"
+                    izz="${(1/2) * mass * (radius*radius)}" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- ==== GAZEBO TAGS ==== -->
+    <xacro:property name="base_wrist_friction" value="0.8" />
+    <xacro:property name="palm_fingers_friction" value="1" />
+    <xacro:property name="rigid_stiffness_default" value="1000000" />
+    <xacro:property name="damping_default" value="200" /> 
+    <xacro:property name="min_depth_default" value="0.001" />
+    <xacro:property name="max_velocity_default" value="1" />
+
+</robot>
