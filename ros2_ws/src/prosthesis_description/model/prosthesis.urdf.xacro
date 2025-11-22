@@ -1,14 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
 
-<xacro:include filename="useful_tags.xacro" />
+<xacro:include filename="parameters.xacro" />
+<xacro:include filename="gazebo.xacro" />
 
   <!-- ===== LINKS (base & palm unchanged) ===== -->
   <link name="world" />
-  
-  <xacro:property name="base_length" value="0.174" />
-  <xacro:property name="base_width" value="0.065" />
-  <xacro:property name="base_depth" value="0.101" />
   
   <link name="base_link">
     <visual>
@@ -40,10 +37,6 @@
     </xacro:inertial_sphere>
   </link>
 
-  <xacro:property name="palm_length" value="0.068" />
-  <xacro:property name="palm_width" value="0.098" />
-  <xacro:property name="palm_depth" value="0.019" />
-
   <link name="palm_link">
     <visual>
         <origin xyz="${palm_length/2} 0 0" rpy="0 0 0"/>
@@ -61,10 +54,6 @@
   <!-- ===== FINGER & THUMB LINKS (all boxes 0.02 x 0.05 x 0.02) ===== -->
   <!-- Index -->
   
-  <xacro:property name="index_proximal_length" value="0.025" />
-  <xacro:property name="index_proximal_width" value="0.015" />
-  <xacro:property name="index_proximal_depth" value="0.012" />
-  
   <link name="index_proximal_link">
     <visual>
         <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
@@ -78,10 +67,6 @@
         <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-  
-  <xacro:property name="index_middle_length" value="0.05" />
-  <xacro:property name="index_middle_width" value="0.015" />
-  <xacro:property name="index_middle_depth" value="0.012" />
 
   <link name="index_middle_link">
     <visual>
@@ -98,9 +83,6 @@
   </link>
 
   <!-- Middle -->
-  <xacro:property name="middle_proximal_length" value="0.025" />
-  <xacro:property name="middle_proximal_width" value="0.015" />
-  <xacro:property name="middle_proximal_depth" value="0.012" />
   
   <link name="middle_proximal_link">
     <visual>
@@ -135,9 +117,6 @@
   </link>
 
   <!-- Ring -->
-  <xacro:property name="ring_proximal_length" value="0.025" />
-  <xacro:property name="ring_proximal_width" value="0.015" />
-  <xacro:property name="ring_proximal_depth" value="0.012" />
   
   <link name="ring_proximal_link">
     <visual>
@@ -152,10 +131,6 @@
         <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-
-  <xacro:property name="ring_middle_length" value="0.05" />
-  <xacro:property name="ring_middle_width" value="0.015" />
-  <xacro:property name="ring_middle_depth" value="0.012" />
 
   <link name="ring_middle_link">
     <visual>
@@ -172,9 +147,6 @@
   </link>
 
   <!-- Little -->
-  <xacro:property name="little_proximal_length" value="0.025" />
-  <xacro:property name="little_proximal_width" value="0.015" />
-  <xacro:property name="little_proximal_depth" value="0.012" />
   
   <link name="little_proximal_link">
     <visual>
@@ -189,10 +161,6 @@
         <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-
-  <xacro:property name="little_middle_length" value="0.05" />
-  <xacro:property name="little_middle_width" value="0.015" />
-  <xacro:property name="little_middle_depth" value="0.012" />
 
   <link name="little_middle_link">
     <visual>
@@ -209,9 +177,6 @@
   </link>
 
   <!-- Thumb -->
-  <xacro:property name="thumb_metacarpal_length" value="0.028" />
-  <xacro:property name="thumb_metacarpal_width" value="0.015" />
-  <xacro:property name="thumb_metacarpal_depth" value="0.012" />
 
   <link name="thumb_metacarpal_link">
     <visual>
@@ -220,16 +185,12 @@
     </visual>
     <collision>
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
-        <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
+        <geometry><box size="0 0 0"/></geometry>
     </collision>
     <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-
-  <xacro:property name="thumb_proximal_length" value="0.025" />
-  <xacro:property name="thumb_proximal_width" value="0.015" />
-  <xacro:property name="thumb_proximal_depth" value="0.012" />
 
   <link name="thumb_proximal_link">
     <visual>
@@ -244,10 +205,6 @@
         <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
-
-  <xacro:property name="thumb_distal_length" value="0.020" />
-  <xacro:property name="thumb_distal_width" value="0.015" />
-  <xacro:property name="thumb_distal_depth" value="0.012" />
 
   <link name="thumb_distal_link">
     <visual>
@@ -286,18 +243,6 @@
     <axis xyz="0 1 0"/>
     <limit lower="-1.57" upper="1.57" effort="5" velocity="5"/>
   </joint>
-
-  <!-- MCP X and Y positions for each finger relative to palm_link -->
-  <xacro:property name="mcp_x" value="${palm_length}" />
-
-  <xacro:property name="finger_width" value="${index_proximal_length}" />
-  <xacro:property name="spacing_area" value="${palm_width - finger_width * 4}"/>
-  <xacro:property name="d" value="${spacing_area / 5}"/>
-
-  <xacro:property name="index_mcp_y" value="${-palm_width / 2 + d + finger_width / 2}" />
-  <xacro:property name="middle_mcp_y" value="${-palm_width / 2 + d*2 + finger_width*1.5}" />
-  <xacro:property name="ring_mcp_y" value="${-palm_width / 2 + d*3 + finger_width*2.5}" />
-  <xacro:property name="little_mcp_y" value="${-palm_width / 2 + d*4 + finger_width*3.5}" />
 
   <!-- Index -->
   <joint name="joint_index_mcp" type="revolute">
