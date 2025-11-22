@@ -2,6 +2,8 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
+<!-- File containing all useful values for the robot description -->
+
     <!-- ==== PROSTHESIS VALUES ==== -->
     
     <!-- Dimensions for each link -->

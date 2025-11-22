@@ -1,101 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- ===== GAZEBO ROS2 CONTROL PLUGIN ===== -->
-  <!-- Bridges Gazebo simulation to ROS2 controller manager
-  by reading YAML config file (update rates, controllers to load, namespaces)
-  and initializes hardware interface which exposes joint read/write methods to ros2_control -->
-
-  <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find prosthesis_description)/config/prosthesis_controllers.yaml</parameters>
-    </plugin>
-  </gazebo>
-  
-  <!-- ===== ROS2 CONTROL INTERFACE ===== -->
-  <!-- Tells control_manager what hardware plugin to instanciate,
-   which joint exists and which interface each joint exposes -->
-
-  <ros2_control name="GazeboSimROS2ControlPlugin" type="system">
-    <hardware>
-      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-    </hardware>
-
-    <!-- Wrist Joint -->
-    <joint name="joint_wrist_to_palm">
-      <command_interface name="position"/> <!-- command controller will send for position control -->
-      <state_interface name="position"/> <!-- state controller can read -->
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Index Finger Joints -->
-    <joint name="joint_index_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_index_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Middle Finger Joints -->
-    <joint name="joint_middle_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_middle_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Ring Finger Joints -->
-    <joint name="joint_ring_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_ring_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Little Finger Joints -->
-    <joint name="joint_little_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_little_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Thumb Joints -->
-    <joint name="joint_thumb_cmc">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_thumb_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_thumb_ip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-  </ros2_control>
-
+<!-- File containing all additional descriptions necessary for Gazebo simulation-->
 
   <!-- ===== GAZEBO TAGS ===== -->
+  <!-- Needed additional link properties to simulate robot in accurate physics environment-->
 
   <!-- Base and palm Gazebo tags -->
   
@@ -247,4 +156,99 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
+  <!-- ===== GAZEBO ROS2 CONTROL PLUGIN ===== -->
+  <!-- Bridges Gazebo simulation to ROS2 controller manager
+  by reading YAML config file (update rates, controllers to load, namespaces)
+  and initializes hardware interface which exposes joint read/write methods to ros2_control -->
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find prosthesis_description)/config/prosthesis_controllers.yaml</parameters>
+      <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
+    </plugin>
+  </gazebo>
+  
+  <!-- ===== ROS2 CONTROL INTERFACE ===== -->
+  <!-- Tells control_manager what hardware plugin to instanciate,
+   which joint exists and which interface each joint exposes -->
+
+  <ros2_control name="GazeboSimROS2ControlPlugin" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <!-- Wrist Joint -->
+    <joint name="joint_wrist_to_palm">
+      <command_interface name="position"/> <!-- command controller will send for position control -->
+      <state_interface name="position"/> <!-- state controller can read -->
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Index Finger Joints -->
+    <joint name="joint_index_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_index_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Middle Finger Joints -->
+    <joint name="joint_middle_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_middle_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Ring Finger Joints -->
+    <joint name="joint_ring_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_ring_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Little Finger Joints -->
+    <joint name="joint_little_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_little_pip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Thumb Joints -->
+    <joint name="joint_thumb_cmc">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_thumb_mcp">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_thumb_ip">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
 </robot>
+

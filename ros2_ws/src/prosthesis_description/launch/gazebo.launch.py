@@ -20,7 +20,7 @@ def generate_launch_description():
         }.items()
     )
     
-    # Gazebo launch
+    # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('ros_gz_sim'), 
@@ -29,18 +29,7 @@ def generate_launch_description():
         launch_arguments={'gz_args': '-r empty.sdf'}.items()
     )
     
-    # Clock bridge - converts Gazebo clock to ROS clock
-    clock_bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
-        output='screen',
-        parameters=[{
-            'use_sim_time': True
-        }]
-    )
-    
-    # Spawn entity in Gazebo
+    # Run the spawner node from the gazebo_ros package after a delay to ensure Gazebo is ready
     spawn_entity = TimerAction(
         period=5.0,  # Wait 5 seconds for Gazebo to start
         actions=[
@@ -61,10 +50,21 @@ def generate_launch_description():
             )
         ]
     )
+
+    # Clock bridge node - converts Gazebo clock to ROS clock
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        output='screen',
+        parameters=[{
+            'use_sim_time': True
+        }]
+    )
     
     return LaunchDescription([
-        gazebo,
-        clock_bridge,
         robot_state_publisher_launch,
-        spawn_entity
+        gazebo,
+        spawn_entity,
+        clock_bridge
     ])
