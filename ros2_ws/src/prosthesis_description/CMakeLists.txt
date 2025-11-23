@@ -12,7 +12,10 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 install(
-  DIRECTORY launch model config DESTINATION share/${PROJECT_NAME}
+  DIRECTORY launch model config worlds DESTINATION share/${PROJECT_NAME}
+)
+install(
+  PROGRAMS scripts/joint_state_printer.py  scripts/movement_input.py DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

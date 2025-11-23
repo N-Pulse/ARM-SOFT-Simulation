@@ -9,6 +9,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_name = 'prosthesis_description'
     pkg_share = get_package_share_directory(pkg_name)
+    world_file = os.path.join(pkg_share, 'worlds', 'empty.sdf')
     
     # Include the base robot_state_publisher launch file
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -26,7 +27,7 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('ros_gz_sim'), 
                         'launch', 'gz_sim.launch.py')
         ]),
-        launch_arguments={'gz_args': '-r empty.sdf'}.items()
+        launch_arguments={'gz_args': f'-r {world_file}'}.items()
     )
     
     # Run the spawner node from the gazebo_ros package after a delay to ensure Gazebo is ready
@@ -61,10 +62,27 @@ def generate_launch_description():
             'use_sim_time': True
         }]
     )
-    
+
+    # Nodes to automatically configure joint_state_broadcaster and joint_state_controller
+    load_joint_state_broadcaster = Node(
+    package='controller_manager',
+    executable='spawner',
+    arguments=['joint_state_broadcaster'],
+    output='screen'
+    )
+
+    load_joint_trajectory_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_trajectory_controller'],
+        output='screen'
+    )
+
     return LaunchDescription([
         robot_state_publisher_launch,
         gazebo,
         spawn_entity,
-        clock_bridge
+        clock_bridge,
+        load_joint_state_broadcaster,
+        load_joint_trajectory_controller
     ])
