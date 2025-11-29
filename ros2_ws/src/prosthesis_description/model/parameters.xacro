@@ -34,7 +34,7 @@
     <xacro:property name="little_middle_length" value="0.05" />
     <xacro:property name="little_middle_width" value="0.015" />
     <xacro:property name="little_middle_depth" value="0.012" />
-    <xacro:property name="thumb_metacarpal_length" value="0.028" />
+    <xacro:property name="thumb_metacarpal_length" value="0.01" /> 
     <xacro:property name="thumb_metacarpal_width" value="0.015" />
     <xacro:property name="thumb_metacarpal_depth" value="0.012" />
     <xacro:property name="thumb_proximal_length" value="0.025" />

@@ -185,6 +185,10 @@
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
     </visual>
+    <collision>
+        <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
+    </collision>
     <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
         <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
@@ -195,6 +199,10 @@
         <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
     </visual>
+    <collision>
+        <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
+        <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
+    </collision>
     <xacro:inertial_box mass="0.01" x="${thumb_proximal_length}" y="${thumb_proximal_width}" z="${thumb_proximal_depth}">
         <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
@@ -289,7 +297,7 @@
   <!-- Thumb (diagonal) -->
   <joint name="joint_thumb_cmc" type="revolute">
     <parent link="palm_link"/><child link="thumb_metacarpal_link"/>
-    <origin xyz="${thumb_metacarpal_width/2} ${-(palm_width/2.5)} 0.00" rpy="0 0 -0.70"/><axis xyz="0 1 0"/>
+    <origin xyz="${thumb_metacarpal_width/2 + 0.02} ${-(palm_width/2) - 0.0068} 0.00" rpy="0 0 -0.80"/><axis xyz="0 1 0"/>
     <limit lower="-0.40" upper="1.20" effort="3" velocity="5"/>
   </joint>
   <joint name="joint_thumb_mcp" type="revolute">

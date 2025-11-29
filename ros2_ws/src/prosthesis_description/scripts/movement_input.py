@@ -51,9 +51,9 @@ class TrajectoryClient(Node):
             0.5,
             0.5,
             0.5,
-            -0.5,
-            -0.5,
-            -0.5
+            0.5,
+            0.5,
+            0.5
         ]
 
         point.time_from_start.sec = 2
