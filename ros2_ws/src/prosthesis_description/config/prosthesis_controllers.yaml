@@ -1,0 +1,37 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+
+    # publishes state of all resources registered to a hardware_interface::StateInterface
+    # to a topic of type sensor_msgs/msg/JointState
+    joint_state_broadcaster: 
+      type: joint_state_broadcaster/JointStateBroadcaster
+      activate_on_startup: true
+
+    joint_trajectory_controller:
+      type: "joint_trajectory_controller/JointTrajectoryController"
+      activate_on_startup: true
+
+# creates an action called /joint_trajectory_controller/follow_joint_trajectory 
+# of type control_msgs::action::FollowJointTrajectory
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - joint_wrist_to_palm
+      - joint_index_mcp
+      - joint_index_pip
+      - joint_middle_mcp
+      - joint_middle_pip
+      - joint_ring_mcp
+      - joint_ring_pip
+      - joint_little_mcp
+      - joint_little_pip
+      - joint_thumb_cmc
+      - joint_thumb_mcp
+      - joint_thumb_ip
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
