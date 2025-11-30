@@ -9,7 +9,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_name = 'prosthesis_description'
     pkg_share = get_package_share_directory(pkg_name)
-    world_file = os.path.join(pkg_share, 'worlds', 'empty.sdf')
+    world_file = os.path.join(pkg_share, 'worlds', 'prosthesis_world.sdf')
     
     # Include the base robot_state_publisher launch file
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -52,11 +52,18 @@ def generate_launch_description():
         ]
     )
 
-    # Clock bridge node - converts Gazebo clock to ROS clock
-    clock_bridge = Node(
+    #  converts Gazebo clock and contact sensor data to ROS
+    ros_gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=['clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        arguments=[
+            'clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/world/default/model/prosthesis/link/index_middle_link/sensor/index_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            '/world/default/model/prosthesis/link/middle_middle_link/sensor/middle_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            '/world/default/model/prosthesis/link/ring_middle_link/sensor/ring_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            '/world/default/model/prosthesis/link/little_middle_link/sensor/little_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            '/world/default/model/prosthesis/link/thumb_distal_link/sensor/thumb_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts'
+        ],
         output='screen',
         parameters=[{
             'use_sim_time': True
@@ -82,7 +89,7 @@ def generate_launch_description():
         robot_state_publisher_launch,
         gazebo,
         spawn_entity,
-        clock_bridge,
+        ros_gz_bridge,
         load_joint_state_broadcaster,
         load_joint_trajectory_controller
     ])

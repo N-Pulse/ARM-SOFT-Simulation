@@ -42,18 +42,18 @@ class TrajectoryClient(Node):
 
         point = JointTrajectoryPoint()
         point.positions = [
-            0.2,
             0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5,
-            0.5
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
         ]
 
         point.time_from_start.sec = 2
