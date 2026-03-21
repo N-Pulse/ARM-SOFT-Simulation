@@ -85,7 +85,6 @@
                             <size>0.5 10.0 2.0</size>
                         </box>
                     </geometry>
-                    <!--let's add color to our link-->
                     <material>
                         <ambient>0.0 0.0 1.0 1</ambient>
                         <diffuse>0.0 0.0 1.0 1</diffuse>
@@ -99,7 +98,6 @@
                         </box>
                     </geometry>
                 </collision>
-
 
                 <sensor name='sensor_contact' type='contact'>
                     <contact>
@@ -118,7 +116,6 @@
         </model>
         <!-- CYLINDER -->
         <model name='cylinder'>
-            <!--<static>true</static>!-->
             <pose>0.3 0.08 0.15 0 0 0</pose>
         <!-- parameters : x y z roll(rad) pitch(rad) yaw(rad) !-->
             <link name='cylinder'>

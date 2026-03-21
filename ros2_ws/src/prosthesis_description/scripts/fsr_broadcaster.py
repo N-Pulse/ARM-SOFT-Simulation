@@ -20,7 +20,7 @@ class FSRBroadcaster(Node):
         
         # Fingers and their sensor configurations
         self.fingers = {
-            'index': 'index_middle_link',
+            'index': 'index_middle_fsr_link',
             'middle': 'middle_middle_link',
             'ring': 'ring_middle_link',
             'little': 'little_middle_link',
