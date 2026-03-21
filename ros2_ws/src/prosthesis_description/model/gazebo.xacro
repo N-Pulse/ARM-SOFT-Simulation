@@ -60,7 +60,6 @@
   </gazebo>
 
   <gazebo reference="index_middle_link">
-    
     <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
@@ -68,15 +67,6 @@
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
-
-    <sensor name="index_fsr" type="contact">
-      <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <contact>
-        <collision>collision</collision>
-      </contact>
-    </sensor>
-
   </gazebo>
 
   <!-- Middle finger Gazebo tags -->
@@ -99,15 +89,6 @@
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
-
-    <sensor name="middle_fsr" type="contact">
-      <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <contact>
-        <collision>collision</collision>
-      </contact>
-    </sensor>
-
   </gazebo>
 
   <!-- Ring finger Gazebo tags -->
@@ -130,15 +111,6 @@
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
-
-    <sensor name="ring_fsr" type="contact">
-      <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <contact>
-        <collision>collision</collision>
-      </contact>
-    </sensor>
-
   </gazebo>
 
   <!-- Little finger Gazebo tags -->
@@ -161,15 +133,6 @@
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
-
-    <sensor name="little_fsr" type="contact">
-      <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <contact>
-        <collision>collision</collision>
-      </contact>
-    </sensor>
-
   </gazebo>
 
   <!-- Thumb Gazebo tags -->
@@ -202,7 +165,59 @@
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
 
+  <!-- IMU -->
+  <gazebo reference="palm_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+    </sensor>
+  </gazebo>
+
+  <!-- FSR -->
+
+  <gazebo reference="index_middle_fsr_link">
+    <sensor name="index_fsr" type="contact">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <contact>
+        <collision>collision</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="middle_middle_link">
+      <sensor name="middle_fsr" type="contact">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <contact>
+        <collision>collision</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="ring_middle_link">
+    <sensor name="ring_fsr" type="contact">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <contact>
+        <collision>collision</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="little_middle_link">
+    <sensor name="little_fsr" type="contact">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <contact>
+        <collision>collision</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="thumb_distal_link">
     <sensor name="thumb_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>1000</update_rate>
@@ -210,9 +225,8 @@
         <collision>collision</collision>
       </contact>
     </sensor>
-
   </gazebo>
-  
+
   <!-- ===== ROS2 CONTROL INTERFACE ===== -->
   <!-- Tells control_manager what hardware plugin to instanciate,
    which joint exists and which interface each joint exposes -->

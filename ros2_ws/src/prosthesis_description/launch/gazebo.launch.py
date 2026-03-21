@@ -58,11 +58,11 @@ def generate_launch_description():
         executable='parameter_bridge',
         arguments=[
             'clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/world/default/model/prosthesis/link/index_middle_link/sensor/index_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            '/world/default/model/prosthesis/link/middle_middle_link/sensor/middle_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            '/world/default/model/prosthesis/link/ring_middle_link/sensor/ring_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            '/world/default/model/prosthesis/link/little_middle_link/sensor/little_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            '/world/default/model/prosthesis/link/thumb_distal_link/sensor/thumb_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts'
+            # '/world/default/model/prosthesis/link/index_middle_link/sensor/index_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            # '/world/default/model/prosthesis/link/middle_middle_link/sensor/middle_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            # '/world/default/model/prosthesis/link/ring_middle_link/sensor/ring_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            # '/world/default/model/prosthesis/link/little_middle_link/sensor/little_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
+            # '/world/default/model/prosthesis/link/thumb_distal_link/sensor/thumb_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts'
         ],
         output='screen',
         parameters=[{

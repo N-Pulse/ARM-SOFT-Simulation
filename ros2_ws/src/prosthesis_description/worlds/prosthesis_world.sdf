@@ -30,6 +30,9 @@
             filename="gz-sim-contact-system"
             name="gz::sim::systems::Contact">
         </plugin>
+        <plugin filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+        </plugin>
 
         <light type="directional" name="sun">
             <cast_shadows>true</cast_shadows>
@@ -71,32 +74,91 @@
             </link>
         </model>
 
-      <model name='cylinder'>
-        <static>true</static>
-        <pose>0.28 0 0.15 1.5708 1.5708 0</pose>
-        <link name='cylinder'>
-          <visual name='visual'>
-              <geometry>
-                  <cylinder>
-                      <radius>0.04</radius>
-                      <length>0.1</length>
-                  </cylinder>
-              </geometry>
-              <material>
-                  <ambient>1.0 0.0 0.0 1</ambient>
-                  <diffuse>1.0 0.0 0.0 1</diffuse>
-                  <specular>1.0 0.0 0.0 1</specular>
-              </material>
-          </visual>
-          <collision name='collision'>
-              <geometry>
-                  <cylinder>
-                      <radius>0.04</radius>
-                      <length>0.1</length>
-                  </cylinder>
-              </geometry>
-          </collision>
-        </link>
-      </model>
+        <!-- WALL -->
+        <model name='wall'>
+            <static>true</static>
+            <pose>5 0 0 0 0 0</pose><!--pose relative to the world-->
+            <link name='box'>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>0.5 10.0 2.0</size>
+                        </box>
+                    </geometry>
+                    <!--let's add color to our link-->
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse>
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>0.5 10.0 2.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+
+
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+            </link>
+
+            <plugin filename="gz-sim-touchplugin-system"
+                name="gz::sim::systems::TouchPlugin">
+                <!-- <target>cylinder</target> -->
+                <!-- <namespace>wall</namespace> -->
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+        </model>
+        <!-- CYLINDER -->
+        <model name='cylinder'>
+            <static>true</static>
+            <pose>0.28 0 0.15 1.5708 1.5708 0</pose>
+            <link name='cylinder'>
+            <visual name='visual'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.04</radius>
+                        <length>0.1</length>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>1.0 0.0 0.0 1</ambient>
+                    <diffuse>1.0 0.0 0.0 1</diffuse>
+                    <specular>1.0 0.0 0.0 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.04</radius>
+                        <length>0.1</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+            </link>
+
+            <sensor name='sensor_contact_2' type='contact'>
+                <contact>
+                    <collision>collision</collision>
+                </contact>
+            </sensor>
+
+            <plugin filename="gz-sim-touchplugin-system"
+                name="gz::sim::systems::TouchPlugin">
+                <!-- <target>vehicle_blue</target> -->
+                <!-- <namespace>wall</namespace> -->
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+
+
+        </model>
     </world>
 </sdf>
