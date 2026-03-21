@@ -70,14 +70,14 @@ class JointStatePrinter(Node):
             for finger in self.fsr_values.keys():
                 if finger in name.lower():
                     fsr_val = self.fsr_values[finger]
-                    fsr_str = f"fsr[{finger}]={fsr_val:.3f}" if fsr_val is not None else ""
+                    fsr_str = f"fsr[{finger}]={fsr_val:.3f}" if fsr_val is not None else "None"
                     break
 
             # printing joint information
             pos_str = f"{pos:.3f}" if pos is not None else "None"
             vel_str = f"{vel:.3f}" if vel is not None else "None"
             self.get_logger().info(
-                f"ID={i}, name={name}, pos={pos_str}, vel={vel_str}, t={stamp}, {fsr_str}"
+                f"ID={i}, name={name}, pos={pos_str}, vel={vel_str}, t={stamp}, fsr={fsr_str}"
             )
 
 

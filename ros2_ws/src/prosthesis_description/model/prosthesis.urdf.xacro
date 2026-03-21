@@ -11,15 +11,15 @@
   
   <link name="base_link">
     <visual>
-        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
         <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
     </visual>
     <collision>
-        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
         <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
     </collision>
     <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_depth}">
-        <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
+        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
 
@@ -77,7 +77,7 @@
         <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
     </visual>
-    <collision>
+    <collision name="collision_index_middle">
         <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
     </collision>
@@ -127,7 +127,7 @@
         <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
     </visual>
-    <collision>
+    <collision name="collision_middle_middle">
         <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
     </collision>
@@ -157,7 +157,7 @@
         <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
     </visual>
-    <collision>
+    <collision name="collision_ring_middle">
         <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
     </collision>
@@ -187,7 +187,7 @@
         <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
     </visual>
-    <collision>
+    <collision name="collision_little_middle">
         <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
     </collision>
@@ -231,7 +231,7 @@
         <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
     </visual>
-    <collision>
+    <collision name="collision_thumb_distal">
         <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
         <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
     </collision>
@@ -252,7 +252,7 @@
   <joint name="joint_base_to_wrist" type="fixed">
     <parent link="base_link"/>
     <child  link="wrist_link"/>
-    <origin xyz="${base_length} 0 0" rpy="0 0 0"/>
+    <origin xyz="${base_length} 0 ${base_depth/2}" rpy="0 0 0"/>
   </joint>
 
   <!-- Wrist → Palm -->
@@ -260,7 +260,8 @@
     <parent link="wrist_link"/>
     <child  link="palm_link"/>
     <origin xyz="${wrist_radius*2} 0 0" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
+    <axis xyz="1 0 0"/>
+    <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="5" velocity="5"/>
   </joint>
 

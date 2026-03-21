@@ -42,7 +42,7 @@ def generate_launch_description():
                     '-name', 'prosthesis',
                     '-x', '0.0',
                     '-y', '0.0', 
-                    '-z', '0.2'
+                    '-z', '0.05'
                 ],
                 parameters=[{
                     'use_sim_time': True
