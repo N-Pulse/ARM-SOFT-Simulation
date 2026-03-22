@@ -21,6 +21,9 @@ controller_manager:
 joint_trajectory_controller:
   ros__parameters:
     joints:
+      - joint_world_to_base_x
+      - joint_base_x_to_base_y
+      - joint_base_y_to_base_z
       - joint_wrist_to_palm
       - joint_index_mcp
       - joint_index_pip

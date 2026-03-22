@@ -31,10 +31,7 @@ def generate_launch_description():
     )
     
     # Run the spawner node from the gazebo_ros package after a delay to ensure Gazebo is ready
-    spawn_entity = TimerAction(
-        period=5.0,  # Wait 5 seconds for Gazebo to start
-        actions=[
-            Node(
+    spawn_entity = Node(
                 package='ros_gz_sim',
                 executable='create',
                 arguments=[
@@ -48,8 +45,6 @@ def generate_launch_description():
                     'use_sim_time': True
                 }],
                 output='screen'
-            )
-        ]
     )
 
     #  converts Gazebo clock and contact sensor data to ROS

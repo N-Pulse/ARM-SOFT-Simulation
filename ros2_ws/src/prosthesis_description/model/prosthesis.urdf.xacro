@@ -9,17 +9,32 @@
   <!-- ===== LINKS (base & palm unchanged) ===== -->
   <link name="world" />
   
+  <!-- Intermediate kinematic links for base movement (x, y, z) -->
+  <link name="base_link_x_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <link name="base_link_y_frame">
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+  
   <link name="base_link">
     <visual>
-        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
     </visual>
     <collision>
-        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
     </collision>
     <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_depth}">
-        <origin xyz="${base_length/2} 0 ${base_depth/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:inertial_box>
   </link>
 
@@ -241,18 +256,38 @@
   </link>
 
   <!-- ===== JOINTS ===== -->
-  <!-- World → Base -->
-  <joint name="joint_world_to_base" type="fixed">
+  <!-- World → Base X (prismatic joint for x-axis motion) -->
+  <joint name="joint_world_to_base_x" type="prismatic">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <parent link="world"/>
-        <child link="base_link"/>        
-    </joint>
+        <child link="base_link_x_frame"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-2.0" upper="2.0" effort="100" velocity="1.0"/>
+  </joint>
+
+  <!-- Base X → Base Y (prismatic joint for y-axis motion) -->
+  <joint name="joint_base_x_to_base_y" type="prismatic">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link_x_frame"/>
+        <child link="base_link_y_frame"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-2.0" upper="2.0" effort="100" velocity="1.0"/>
+  </joint>
+
+  <!-- Base Y → Base Link (prismatic joint for z-axis motion) -->
+  <joint name="joint_base_y_to_base_z" type="prismatic">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link_y_frame"/>
+        <child link="base_link"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0.0" upper="2.0" effort="100" velocity="1.0"/>
+  </joint>
 
   <!-- Base → Wrist -->
   <joint name="joint_base_to_wrist" type="fixed">
     <parent link="base_link"/>
     <child  link="wrist_link"/>
-    <origin xyz="${base_length} 0 ${base_depth/2}" rpy="0 0 0"/>
+    <origin xyz="${base_length/2} 0 0" rpy="0 0 0"/>
   </joint>
 
   <!-- Wrist → Palm -->

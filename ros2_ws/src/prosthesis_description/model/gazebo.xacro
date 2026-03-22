@@ -238,6 +238,23 @@
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
 
+    <!-- Base Movement Joints (X, Y, Z) -->
+    <joint name="joint_world_to_base_x">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_base_x_to_base_y">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_base_y_to_base_z">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
     <!-- Wrist Joint -->
     <joint name="joint_wrist_to_palm">
       <command_interface name="position"/> <!-- command controller will send for position control -->
