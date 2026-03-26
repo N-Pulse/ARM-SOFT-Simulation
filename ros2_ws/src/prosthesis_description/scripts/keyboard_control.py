@@ -16,6 +16,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 
 # implements cross-platform keyboard input to capture a
 # single character without the user needing to press enter
+# see https://gist.github.com/jasonrdsouza/1901709?permalink_comment_id=2734411
 try:
     import os
     if os.name == 'nt': # check if running on Windows
@@ -33,6 +34,8 @@ try:
                 ch = sys.stdin.read(1)
             finally:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            if ord(ch) in [3, 4, 26, 27]: # handle ctrl+c
+                sys.exit()    
             return ch
 except ImportError:
     def getch():
@@ -67,7 +70,7 @@ class KeyboardControlNode(Node):
             "joint_little_pip",
             "joint_thumb_cmc",
             "joint_thumb_mcp",
-            "joint_thumb_ip"
+            "joint_thumb_pip"
         ]
         
         # Current joint positions (15 joints total)

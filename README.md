@@ -14,9 +14,11 @@ Visualization of the prosthesis in the Gazebo physics engine.
 <img width="1847" height="1125" alt="image" src="https://github.com/user-attachments/assets/c1fac227-d56c-4e2a-bba0-c626e0a26529" />
 
 ## Requirements
-- Linux OS (preferably Ubuntu 24.04)
-- ROS2 Jazzy-jalisco version
-- Gazebo Harmonics
+- Operating system : Linux Ubuntu 24.04
+- ROS2 Jazzy-jalisco version for robot control and communication
+- Gazebo Harmonics for simulation
+- ros_gz_bridge
+- Xacro / URDF for robot description
 
 ## Usage
 ### Installation guide
@@ -48,11 +50,17 @@ colcon build
 source install/setup.bash
 ros2 launch prosthesis_description gazebo.launch.py
 ```
-To move the prosthesis with your keyboardopen a new terminal and run : 
+To move the prosthesis base (arm) with your keyboard open a new terminal and run : 
 ```
 source install/setup.bash
 ros2 run prosthesis_description keyboard_control.py
 ``` 
 Then follow the printed instructions.
+
+To move each joint of the prothesis with a GUI, open a new terminal and run :
+```
+ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller
+```
+
 
 ## License 

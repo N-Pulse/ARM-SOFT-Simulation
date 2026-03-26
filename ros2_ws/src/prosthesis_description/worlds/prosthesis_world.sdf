@@ -1,39 +1,36 @@
 <?xml version="1.0" ?>
 <sdf version="1.7">
     <world name="prosthesis_world">
+
+        <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+        <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+        <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+        <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+        <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+        <plugin filename="gz-sim-forcetorque-system" name="gz::sim::systems::ForceTorque"/>
+        
         <physics name="1ms" type="ignored">
             <max_step_size>0.001</max_step_size>
             <real_time_factor>1.0</real_time_factor>
         </physics>
+        
         <gravity>0 0 -9.8</gravity>
+        
         <scene>
           <ambient>0.4 0.4 0.4 1</ambient>
+          <background>0.7 0.7 0.7 1</background>
+          <shadows>true</shadows>
         </scene>
-        <plugin
-            filename="gz-sim-physics-system"
-            name="gz::sim::systems::Physics">
-        </plugin>
-        <plugin
-            filename="gz-sim-user-commands-system"
-            name="gz::sim::systems::UserCommands">
-        </plugin>
-        <plugin
-            filename="gz-sim-scene-broadcaster-system"
-            name="gz::sim::systems::SceneBroadcaster">
-        </plugin>
-        <plugin
-            filename="gz-sim-sensors-system"
-            name="gz::sim::systems::Sensors">
-            <render_engine>ogre2</render_engine>
-        </plugin>
-        <plugin
-            filename="gz-sim-contact-system"
-            name="gz::sim::systems::Contact">
-        </plugin>
-        <plugin filename="gz-sim-imu-system"
-        name="gz::sim::systems::Imu">
-        </plugin>
-
+        
+        <gui>
+            <camera name="user_default">
+                <pose>0.556 -0.9132 0.8266 0 0.59 2.15</pose>
+            </camera>
+        </gui>
+        
         <light type="directional" name="sun">
             <cast_shadows>true</cast_shadows>
             <pose>0 0 10 0 0 0</pose>
@@ -55,8 +52,18 @@
                 <geometry>
                     <plane>
                     <normal>0 0 1</normal>
+                    <size>100 100</size>
                     </plane>
                 </geometry>
+                <surface>
+                    <friction>
+                    <ode>
+                        <mu>50</mu>
+                    </ode>
+                    </friction>
+                    <bounce/>
+                    <contact/>
+                </surface>
                 </collision>
                 <visual name="visual">
                 <geometry>
@@ -106,13 +113,13 @@
                 </sensor>
             </link>
 
-            <plugin filename="gz-sim-touchplugin-system"
+            <!--<plugin filename="gz-sim-touchplugin-system"
                 name="gz::sim::systems::TouchPlugin">
-                <!-- <target>cylinder</target> -->
-                <!-- <namespace>wall</namespace> -->
+                <target>cylinder</target>
+                <namespace>wall</namespace>
                 <time>0.001</time>
                 <enabled>true</enabled>
-            </plugin>
+            </plugin>-->
         </model>
         <!-- CYLINDER -->
         <model name='cylinder'>
@@ -140,29 +147,123 @@
                         </cylinder>
                     </geometry>
                 </collision>
-                <inertial>
+                <!--<inertial>
                     <mass>0.8</mass>
                     <inertia ixx="${(1/12) * mass * (3*radius*radius + length*length)}" ixy="0.0" ixz="0.0"
                     iyy="${(1/12) * mass * (3*radius*radius + length*length)}" iyz="0.0"
                     izz="${(1/2) * mass * (radius*radius)}" />
-                </inertial>
+                </inertial>-->
             </link>
 
-            <sensor name='sensor_contact_2' type='contact'>
+            <!--<sensor name='sensor_contact_2' type='contact'>
                 <contact>
                     <collision>collision</collision>
                 </contact>
-            </sensor>
+            </sensor> -->
 
-            <plugin filename="gz-sim-touchplugin-system"
+            <!--<plugin filename="gz-sim-touchplugin-system"
                 name="gz::sim::systems::TouchPlugin">
-                <!-- <target>vehicle_blue</target> -->
-                <!-- <namespace>wall</namespace> -->
+                <target>vehicle_blue</target>
+                <namespace>wall</namespace>
                 <time>0.001</time>
                 <enabled>true</enabled>
-            </plugin>
+            </plugin>-->
 
 
         </model>
+
+        <model name='green_cylinder'>
+        <link name='link'>
+            <inertial>
+            <mass>0.10000000000000001</mass>
+            <inertia>
+                <ixx>0.00010582999999999999</ixx>
+                <ixy>0</ixy>
+                <ixz>0</ixz>
+                <iyy>0.00010582999999999999</iyy>
+                <iyz>0</iyz>
+                <izz>4.5000000000000003e-05</izz>
+            </inertia>
+            <pose>0 0 0 0 0 0</pose>
+            </inertial>
+            <self_collide>false</self_collide>
+            <enable_wind>false</enable_wind>
+            <kinematic>false</kinematic>
+            <pose>0 0 0 0 0 0</pose>
+            <gravity>true</gravity>
+            <visual name='visual'>
+            <geometry>
+                <cylinder>
+                <radius>0.029999999999999999</radius>
+                <length>0.10000000000000001</length>
+                </cylinder>
+            </geometry>
+            <pose>0 0 0 0 0 0</pose>
+            <transparency>0</transparency>
+            <cast_shadows>true</cast_shadows>
+            </visual>
+            <collision name='collision'>
+            <laser_retro>0</laser_retro>
+            <max_contacts>10</max_contacts>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+                <cylinder>
+                <radius>0.029999999999999999</radius>
+                <length>0.10000000000000001</length>
+                </cylinder>
+            </geometry>
+            <surface>
+                <friction>
+                <ode>
+                    <mu>1</mu>
+                    <mu2>1</mu2>
+                    <fdir1>0 0 0</fdir1>
+                    <slip1>0</slip1>
+                    <slip2>0</slip2>
+                </ode>
+                <torsional>
+                    <coefficient>1</coefficient>
+                    <patch_radius>0</patch_radius>
+                    <surface_radius>0</surface_radius>
+                    <use_patch_radius>true</use_patch_radius>
+                    <ode>
+                    <slip>0</slip>
+                    </ode>
+                </torsional>
+                </friction>
+                <bounce>
+                <restitution_coefficient>0</restitution_coefficient>
+                <threshold>1000000</threshold>
+                </bounce>
+                <contact>
+                <collide_without_contact>false</collide_without_contact>
+                <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+                <collide_bitmask>1</collide_bitmask>
+                <ode>
+                    <soft_cfm>0</soft_cfm>
+                    <soft_erp>0.20000000000000001</soft_erp>
+                    <kp>10000000000000</kp>
+                    <kd>1</kd>
+                    <max_vel>0.01</max_vel>
+                    <min_depth>0</min_depth>
+                </ode>
+                <bullet>
+                    <split_impulse>true</split_impulse>
+                    <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                    <soft_cfm>0</soft_cfm>
+                    <soft_erp>0.20000000000000001</soft_erp>
+                    <kp>10000000000000</kp>
+                    <kd>1</kd>
+                </bullet>
+                </contact>
+            </surface>
+            </collision>
+        </link>
+        <static>false</static>
+        <allow_auto_disable>true</allow_auto_disable>
+        <pose>0.40000000636616451 -0.20000000234418991 1.0649991543952275 -1.266548270165628e-08 -7.6318825807904231e-08 0.00018305429698276093</pose>
+        <self_collide>false</self_collide>
+        </model>
+        
     </world>
 </sdf>

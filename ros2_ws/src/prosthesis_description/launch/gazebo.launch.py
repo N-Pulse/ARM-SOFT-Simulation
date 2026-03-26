@@ -9,7 +9,9 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_name = 'prosthesis_description'
     pkg_share = get_package_share_directory(pkg_name)
-    world_file = os.path.join(pkg_share, 'worlds', 'prosthesis_world.sdf')
+    world_file_path = os.path.join(pkg_share, 'worlds', 'prosthesis_world.sdf')
+    gz_bridge_params_path = os.path.join(pkg_share, 'config', 'gz_bridge.yaml')
+    robot_controllers_path = os.path.join(pkg_share, 'config', 'prosthesis_controllers.yaml')
     
     # Include the base robot_state_publisher launch file
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -27,7 +29,7 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('ros_gz_sim'), 
                         'launch', 'gz_sim.launch.py')
         ]),
-        launch_arguments={'gz_args': f'-r {world_file}'}.items()
+        launch_arguments={'gz_args': f'-r {world_file_path}'}.items()
     )
     
     # Run the spawner node from the gazebo_ros package after a delay to ensure Gazebo is ready
@@ -47,17 +49,13 @@ def generate_launch_description():
                 output='screen'
     )
 
-    #  converts Gazebo clock and contact sensor data to ROS
+    #  ROS Gazebo bridge node with loaded config file
     ros_gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
-            'clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            # '/world/default/model/prosthesis/link/index_middle_link/sensor/index_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            # '/world/default/model/prosthesis/link/middle_middle_link/sensor/middle_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            # '/world/default/model/prosthesis/link/ring_middle_link/sensor/ring_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            # '/world/default/model/prosthesis/link/little_middle_link/sensor/little_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts',
-            # '/world/default/model/prosthesis/link/thumb_distal_link/sensor/thumb_fsr/contacts@ros_gz_interfaces/msg/Contacts[gz.msgs.Contacts'
+            '--ros-args', '-p',
+            f'config_file:={gz_bridge_params_path}'
         ],
         output='screen',
         parameters=[{
@@ -65,20 +63,46 @@ def generate_launch_description():
         }]
     )
 
-    # Nodes to automatically configure joint_state_broadcaster and joint_state_controller
     load_joint_state_broadcaster = Node(
-    package='controller_manager',
-    executable='spawner',
-    arguments=['joint_state_broadcaster'],
-    output='screen'
+        package='controller_manager',
+        executable='spawner',
+        arguments=[
+            'joint_state_broadcaster',
+            '--param-file',
+            robot_controllers_path
+        ],
+        output='screen',
+        parameters=[{
+            'use_sim_time': True
+        }]
     )
 
     load_joint_trajectory_controller = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_trajectory_controller'],
+        arguments=[
+            'joint_trajectory_controller',
+            '--param-file',
+            robot_controllers_path
+        ],
+        output='screen',
+        parameters=[{
+            'use_sim_time': True
+        }]
+    )
+    '''     load_fsr_broadcaster = Node(
+        package='prosthesis_description',
+        executable='fsr_broadcaster.py',
         output='screen'
     )
+
+    load_ft_broadcaster = Node(
+        package='prosthesis_description',
+        executable='ft_broadcaster.py',
+        output='screen'
+    )
+    '''
+
 
     return LaunchDescription([
         robot_state_publisher_launch,
@@ -87,4 +111,6 @@ def generate_launch_description():
         ros_gz_bridge,
         load_joint_state_broadcaster,
         load_joint_trajectory_controller
+        #load_fsr_broadcaster,
+        #load_ft_broadcaster
     ])

@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-<!-- File containing all additional descriptions necessary for Gazebo simulation-->
-
+<robot name="prosthesis" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- File containing all additional descriptions necessary for Gazebo simulation-->
   <!-- ===== GAZEBO TAGS ROS2 CONTROL PLUGIN ===== -->
   <!-- Needed additional link properties to simulate robot in accurate physics environment-->
 
@@ -13,9 +11,29 @@
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find prosthesis_description)/config/prosthesis_controllers.yaml</parameters>
-      <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
+      <!--<controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>-->
     </plugin>
   </gazebo>
+
+  <gazebo>
+      <plugin
+          filename="gz-sim-joint-state-publisher-system"
+          name="gz::sim::systems::JointStatePublisher">
+          <topic>joint_states</topic>
+          <joint_name>joint_wrist_to_palm</joint_name>
+          <joint_name>joint_index_mcp</joint_name>
+          <joint_name>joint_index_pip</joint_name>
+          <joint_name>joint_middle_mcp</joint_name>
+          <joint_name>joint_middle_pip</joint_name>
+          <joint_name>joint_ring_mcp</joint_name>
+          <joint_name>joint_ring_pip</joint_name>
+          <joint_name>joint_little_mcp</joint_name>
+          <joint_name>joint_little_pip</joint_name>
+          <joint_name>joint_thumb_cmc</joint_name>
+          <joint_name>joint_thumb_mcp</joint_name>
+          <joint_name>joint_thumb_pip</joint_name>
+      </plugin>
+    </gazebo>
 
   <!-- Base and palm Gazebo tags -->
   
@@ -180,10 +198,10 @@
   <gazebo reference="index_middle_fsr_link">
     <sensor name="index_fsr" type="contact">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact" />
+      <update_rate>100</update_rate>
       <contact>
-        <collision>collision</collision>
+        <collision>collision_index_middle_fsr</collision>
+        <topic>/index_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -191,9 +209,10 @@
   <gazebo reference="middle_middle_link">
       <sensor name="middle_fsr" type="contact">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
+      <update_rate>100</update_rate>
       <contact>
-        <collision>collision</collision>
+        <collision>collision_middle_middle</collision>
+        <topic>/middle_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -201,9 +220,10 @@
   <gazebo reference="ring_middle_link">
     <sensor name="ring_fsr" type="contact">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
+      <update_rate>100</update_rate>
       <contact>
-        <collision>collision</collision>
+        <collision>collision_ring_middle</collision>
+        <topic>/ring_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -211,9 +231,10 @@
   <gazebo reference="little_middle_link">
     <sensor name="little_fsr" type="contact">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
+      <update_rate>100</update_rate>
       <contact>
-        <collision>collision</collision>
+        <collision>collision_little_middle</collision>
+        <topic>/little_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -221,113 +242,55 @@
   <gazebo reference="thumb_distal_link">
     <sensor name="thumb_fsr" type="contact">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
+      <update_rate>100</update_rate>
       <contact>
-        <collision>collision</collision>
+        <collision>collision_thumb_distal</collision>
+        <topic>/thumb_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
 
-  <!-- ===== ROS2 CONTROL INTERFACE ===== -->
-  <!-- Tells control_manager what hardware plugin to instanciate,
-   which joint exists and which interface each joint exposes -->
+  
+  <!-- Force-torque sensor -->
+  <gazebo reference="joint_index_mcp">
+    <sensor name="index_ft" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
 
-  <ros2_control name="GazeboSimROS2ControlPlugin" type="system">
+  <gazebo reference="joint_middle_mcp">
+    <sensor name="middle_ft" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+  
+  <gazebo reference="joint_ring_mcp">
+    <sensor name="ring_ft" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
 
-    <hardware>
-      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-    </hardware>
+  <gazebo reference="joint_little_mcp">
+    <sensor name="little_ft" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
 
-    <!-- Base Movement Joints (X, Y, Z) -->
-    <joint name="joint_world_to_base_x">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_base_x_to_base_y">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_base_y_to_base_z">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Wrist Joint -->
-    <joint name="joint_wrist_to_palm">
-      <command_interface name="position"/> <!-- command controller will send for position control -->
-      <state_interface name="position"/> <!-- state controller can read -->
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Index Finger Joints -->
-    <joint name="joint_index_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_index_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Middle Finger Joints -->
-    <joint name="joint_middle_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_middle_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Ring Finger Joints -->
-    <joint name="joint_ring_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_ring_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Little Finger Joints -->
-    <joint name="joint_little_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_little_pip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-    <!-- Thumb Joints -->
-    <joint name="joint_thumb_cmc">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_thumb_mcp">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-    <joint name="joint_thumb_ip">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-    </joint>
-
-  </ros2_control>
+  <gazebo reference="joint_thumb_cmc">
+    <sensor name="thumb_ft" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
 
 </robot>
 
