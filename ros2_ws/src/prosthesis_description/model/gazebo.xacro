@@ -201,7 +201,7 @@
       <update_rate>100</update_rate>
       <contact>
         <collision>index_middle_fsr_link_collision</collision>
-        <topic>/index_fsr</topic>
+        <topic>prosthesis/sensor/index_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -212,7 +212,7 @@
       <update_rate>100</update_rate>
       <contact>
         <collision>middle_middle_link_collision</collision>
-        <topic>/middle_fsr</topic>
+        <topic>prosthesis/sensor/middle_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -223,7 +223,7 @@
       <update_rate>100</update_rate>
       <contact>
         <collision>ring_middle_link_collision</collision>
-        <topic>/ring_fsr</topic>
+        <topic>prosthesis/sensor/ring_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -234,7 +234,7 @@
       <update_rate>100</update_rate>
       <contact>
         <collision>little_middle_link_collision</collision>
-        <topic>/little_fsr</topic>
+        <topic>prosthesis/sensor/little_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -245,7 +245,7 @@
       <update_rate>100</update_rate>
       <contact>
         <collision>thumb_distal_link_collision</collision>
-        <topic>/thumb_fsr</topic>
+        <topic>prosthesis/sensor/thumb_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
