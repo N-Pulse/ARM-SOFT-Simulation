@@ -257,6 +257,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/index_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
@@ -265,6 +267,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/middle_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
   
@@ -273,6 +277,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/ring_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
@@ -281,6 +287,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/little_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
@@ -289,6 +297,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/thumb_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
