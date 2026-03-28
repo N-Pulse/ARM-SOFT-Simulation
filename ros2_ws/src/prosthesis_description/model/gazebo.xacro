@@ -200,7 +200,7 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_index_middle_fsr</collision>
+        <collision>index_middle_fsr_link_collision</collision>
         <topic>/index_fsr</topic>
       </contact>
     </sensor>
@@ -211,7 +211,7 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_middle_middle</collision>
+        <collision>middle_middle_link_collision</collision>
         <topic>/middle_fsr</topic>
       </contact>
     </sensor>
@@ -222,7 +222,7 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_ring_middle</collision>
+        <collision>ring_middle_link_collision</collision>
         <topic>/ring_fsr</topic>
       </contact>
     </sensor>
@@ -233,7 +233,7 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_little_middle</collision>
+        <collision>little_middle_link_collision</collision>
         <topic>/little_fsr</topic>
       </contact>
     </sensor>
@@ -244,7 +244,7 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_thumb_distal</collision>
+        <collision>thumb_distal_link_collision</collision>
         <topic>/thumb_fsr</topic>
       </contact>
     </sensor>

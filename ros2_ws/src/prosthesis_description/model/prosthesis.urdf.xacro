@@ -78,7 +78,7 @@
           <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${index_proximal_length} ${index_proximal_width} ${index_proximal_depth}"/></geometry>
       </visual>
-      <collision name="collision_index_proximal">
+      <collision>
           <origin xyz="${index_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${index_proximal_length} ${index_proximal_width} ${index_proximal_depth}"/></geometry>
       </collision>
@@ -92,7 +92,7 @@
           <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
       </visual>
-      <collision name="collision_index_middle">
+      <collision>
           <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${index_middle_length} ${index_middle_width} ${index_middle_depth}"/></geometry>
       </collision>
@@ -106,7 +106,7 @@
           <origin xyz="${index_middle_length/2} 0 -0.005" rpy="0 0 0"/>
           <geometry><sphere radius="0.005"/></geometry>
       </visual>
-      <collision name="collision_index_middle_fsr">
+      <collision>
           <origin xyz="${index_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><sphere radius="0.005"/></geometry>
       </collision>
@@ -142,7 +142,7 @@
           <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
       </visual>
-      <collision name="collision_middle_middle">
+      <collision>
           <origin xyz="${middle_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${middle_middle_length} ${middle_middle_width} ${middle_middle_depth}"/></geometry>
       </collision>
@@ -158,7 +158,7 @@
           <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${ring_proximal_length} ${ring_proximal_width} ${ring_proximal_depth}"/></geometry>
       </visual>
-      <collision name="collision_ring_proximal">
+      <collision>
           <origin xyz="${ring_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${ring_proximal_length} ${ring_proximal_width} ${ring_proximal_depth}"/></geometry>
       </collision>
@@ -172,7 +172,7 @@
           <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
       </visual>
-      <collision name="collision_ring_middle">
+      <collision>
           <origin xyz="${ring_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${ring_middle_length} ${ring_middle_width} ${ring_middle_depth}"/></geometry>
       </collision>
@@ -188,7 +188,7 @@
           <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${little_proximal_length} ${little_proximal_width} ${little_proximal_depth}"/></geometry>
       </visual>
-      <collision name="collision_little_proximal">
+      <collision>
           <origin xyz="${little_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${little_proximal_length} ${little_proximal_width} ${little_proximal_depth}"/></geometry>
       </collision>
@@ -202,7 +202,7 @@
           <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
       </visual>
-      <collision name="collision_little_middle">
+      <collision>
           <origin xyz="${little_middle_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${little_middle_length} ${little_middle_width} ${little_middle_depth}"/></geometry>
       </collision>
@@ -218,7 +218,7 @@
           <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
       </visual>
-      <collision name="collision_thumb_metacarpal">
+      <collision>
           <origin xyz="${thumb_metacarpal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_metacarpal_length} ${thumb_metacarpal_width} ${thumb_metacarpal_depth}"/></geometry>
       </collision>
@@ -232,7 +232,7 @@
           <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
       </visual>
-      <collision name="collision_thumb_proximal">
+      <collision>
           <origin xyz="${thumb_proximal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_proximal_length} ${thumb_proximal_width} ${thumb_proximal_depth}"/></geometry>
       </collision>
@@ -246,7 +246,7 @@
           <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
       </visual>
-      <collision name="collision_thumb_distal">
+      <collision>
           <origin xyz="${thumb_distal_length/2} 0 0" rpy="0 0 0"/>
           <geometry><box size="${thumb_distal_length} ${thumb_distal_width} ${thumb_distal_depth}"/></geometry>
       </collision>
