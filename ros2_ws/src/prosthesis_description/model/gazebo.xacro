@@ -200,8 +200,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_index_middle_fsr</collision>
-        <topic>/index_fsr</topic>
+        <collision>index_middle_fsr_link_collision</collision>
+        <topic>prosthesis/sensor/index_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -211,8 +211,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_middle_middle</collision>
-        <topic>/middle_fsr</topic>
+        <collision>middle_middle_link_collision</collision>
+        <topic>prosthesis/sensor/middle_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -222,8 +222,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_ring_middle</collision>
-        <topic>/ring_fsr</topic>
+        <collision>ring_middle_link_collision</collision>
+        <topic>prosthesis/sensor/ring_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -233,8 +233,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_little_middle</collision>
-        <topic>/little_fsr</topic>
+        <collision>little_middle_link_collision</collision>
+        <topic>prosthesis/sensor/little_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -244,8 +244,8 @@
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>collision_thumb_distal</collision>
-        <topic>/thumb_fsr</topic>
+        <collision>thumb_distal_link_collision</collision>
+        <topic>prosthesis/sensor/thumb_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
@@ -253,42 +253,52 @@
   
   <!-- Force-torque sensor -->
   <gazebo reference="joint_index_mcp">
-    <sensor name="index_ft" type="force_torque">
+    <sensor name="prosthesis/sensor/index_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/index_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
   <gazebo reference="joint_middle_mcp">
-    <sensor name="middle_ft" type="force_torque">
+    <sensor name="prosthesis/sensor/middle_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/middle_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
   
   <gazebo reference="joint_ring_mcp">
-    <sensor name="ring_ft" type="force_torque">
+    <sensor name="prosthesis/sensor/ring_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/ring_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
   <gazebo reference="joint_little_mcp">
-    <sensor name="little_ft" type="force_torque">
+    <sensor name="prosthesis/sensor/little_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/little_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
   <gazebo reference="joint_thumb_cmc">
-    <sensor name="thumb_ft" type="force_torque">
+    <sensor name="prosthesis/sensor/thumb_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <pose>0 0 0 0 0 0</pose>
+      <topic>/thumb_ft</topic>
+      <force_torque></force_torque>
     </sensor>
   </gazebo>
 
