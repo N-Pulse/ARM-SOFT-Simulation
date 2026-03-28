@@ -27,7 +27,9 @@
     <link name="base_link">
       <visual>
           <origin xyz="0 0 0" rpy="0 0 0"/>
-          <geometry><box size="${base_length} ${base_width} ${base_depth}"/></geometry>
+          <geometry>
+            <mesh filename="$(find prosthesis_description)/meshes/PhalangeConstructrion_Base.stl" />
+          </geometry>
       </visual>
       <collision>
           <origin xyz="0 0 0" rpy="0 0 0"/>

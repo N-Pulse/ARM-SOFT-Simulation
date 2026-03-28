@@ -24,7 +24,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY launch model config worlds DESTINATION share/${PROJECT_NAME}
+  DIRECTORY launch meshes model config worlds DESTINATION share/${PROJECT_NAME}
 )
 install(
   PROGRAMS scripts/keyboard_control.py DESTINATION lib/${PROJECT_NAME}
