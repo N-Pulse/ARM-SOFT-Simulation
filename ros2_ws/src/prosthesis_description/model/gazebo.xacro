@@ -21,8 +21,10 @@
           name="gz::sim::systems::JointStatePublisher">
           <topic>joint_states</topic>
           <joint_name>joint_wrist_to_palm</joint_name>
-          <joint_name>joint_index_mcp</joint_name>
-          <joint_name>joint_index_pip</joint_name>
+          <joint_name>joint_index_1</joint_name>
+          <joint_name>joint_index_2</joint_name>
+          <joint_name>joint_index_3</joint_name>
+          <joint_name>joint_index_4</joint_name>
           <joint_name>joint_middle_mcp</joint_name>
           <joint_name>joint_middle_pip</joint_name>
           <joint_name>joint_ring_mcp</joint_name>
@@ -67,8 +69,8 @@
 
   <!-- Index finger Gazebo tags -->
   
-  <gazebo reference="index_proximal_link">
-    <material>Gazebo/SkyBlue</material>
+  <gazebo reference="link_index_1">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -77,8 +79,28 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="index_middle_link">
+  <gazebo reference="link_index_2">
+    <material>Gazebo/Red</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_index_3">
     <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_index_4">
+    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -252,7 +274,7 @@
 
   
   <!-- Force-torque sensor -->
-  <gazebo reference="joint_index_mcp">
+  <gazebo reference="joint_index_1">
     <sensor name="prosthesis/sensor/index_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>

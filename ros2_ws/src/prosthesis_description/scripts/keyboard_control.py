@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """
-Keyboard control node for the prosthesis arm base
+Keyboard control node for the prosthesis arm base 
+which publishes to /arm_mvmt_goals topic or /pose_goals topic
 """
 
 import rclpy
 from rclpy.node import Node
-from rclpy.action import ActionClient
+from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Int8
+import time
 import sys
 import threading
-import time
 
-from control_msgs.action import FollowJointTrajectory
-from trajectory_msgs.msg import JointTrajectoryPoint
 
 # implements cross-platform keyboard input to capture a
 # single character without the user needing to press enter
@@ -47,92 +47,16 @@ class KeyboardControlNode(Node):
     def __init__(self):
         super().__init__('keyboard_control')
         
-        # Action client for trajectory control
-        self._client = ActionClient(
-            self,
-            FollowJointTrajectory,
-            '/joint_trajectory_controller/follow_joint_trajectory'
-        )
+        self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals')
+        self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals')
         
-        # Joint names: 3 base joints + 12 finger joints
-        self.joint_names = [
-            "joint_world_to_base_x",
-            "joint_base_x_to_base_y",
-            "joint_base_y_to_base_z",
-            "joint_wrist_to_palm",
-            "joint_index_mcp",
-            "joint_index_pip",
-            "joint_middle_mcp",
-            "joint_middle_pip",
-            "joint_ring_mcp",
-            "joint_ring_pip",
-            "joint_little_mcp",
-            "joint_little_pip",
-            "joint_thumb_cmc",
-            "joint_thumb_mcp",
-            "joint_thumb_pip"
-        ]
-        
-        # Current joint positions (15 joints total)
-        self.current_positions = [0.0] * 15
-        
-        # Movement speed / step size
+        self.hand_poses = [1, 2, 3, 4, 5, 6]
         self.base_step = 0.01  # meters for base joints
-        self.hand_step = 0.1   # radians for hand joints
-        
-        # Predefined hand poses: use 'modifications' to specify which joints to override
-        # This is much cleaner than hardcoding all 15 positions for each pose
-        self.hand_poses = {
-            '1': {
-                'name': 'Neutral (all 0)',
-                'modifications': {1: 0., 2: 0., 3: 0., 4: 0., 5: 0., 6: 0., 7: 0., 8: 0., 9: 0., 10: 0., 11: 0., 12: 0., 13: 0., 14: 0.}
-            },
-            '2': {
-                'name': 'All fingers to 0°',
-                'modifications': {4: 0., 5: 0., 6: 0., 7: 0., 8: 0., 9: 0., 10: 0., 11: 0., 12: 0., 13: 0., 14: 0.}
-            },
-            '3': {
-                'name': 'Wrist to 0°',
-                'modifications': {3: 0.}
-            },
-            '4': {
-                'name': 'Wrist rotated 90° to the left',
-                'modifications': {3: -1.571}  # Only modify wrist (index 3)
-            },
-            '5': {
-                'name': 'Wrist rotated 90° to the right',
-                'modifications': {3: 1.571}
-            },
-            '6': {
-                'name': 'All fingers flexed to 60°',
-                'modifications': {4: 1.047, 5: 1.047, 6: 1.047, 7: 1.047, 8: 1.047, 9: 1.047, 10: 1.047, 11: 1.047, 12: 1.047, 13: 1.047, 14: 1.047}
-            },
-            '7': {
-                'name': 'Fingers flexed + wrist left rotated 90°',
-                'modifications': {3: -1.571, 4: 1.047, 5: 1.047, 6: 1.047, 7: 1.047, 8: 1.047, 9: 1.047, 10: 1.047, 11: 1.047, 12: 1.047, 13: 1.047, 14: 1.047}
-            },
-            '8': {
-                'name': 'Fingers flexed + wrist right rotated 90°',
-                'modifications': {3: 1.571, 4: 1.047, 5: 1.047, 6: 1.047, 7: 1.047, 8: 1.047, 9: 1.047, 10: 1.047, 11: 1.047, 12: 1.047, 13: 1.047, 14: 1.047}
-            }
-        }
         
         self.get_logger().info("Keyboard control node initialized")
         self.print_help()
     
-    def pose_modifications(self, modifications):
-        """Create a pose based on modifications to the current positions.
-        
-        Args:
-            modifications (dict): {joint_index: value} pairs to override defaults
-        
-        Returns:
-            list: Full position vector with specified joints modified
-        """
-        positions = self.current_positions # Start from neutral/zero
-        for idx, value in modifications.items():
-            positions[idx] = value
-        return positions
+
     
     def print_help(self):
         """Print the help message"""
@@ -162,66 +86,33 @@ class KeyboardControlNode(Node):
         """
         self.get_logger().info(help_text)
     
-    def send_trajectory(self, positions, duration=0.5, goal_name="Goal"):
-        """Send a joint trajectory goal to the controller"""
-        try:
-            self._client.wait_for_server(timeout_sec=1.0)
-        except Exception as e:
-            self.get_logger().warning(f"Trajectory server not available: {e}")
-            return False
-        
-        goal_msg = FollowJointTrajectory.Goal()
-        goal_msg.trajectory.joint_names = self.joint_names
-        
-        point = JointTrajectoryPoint()
-        point.positions = positions
-        point.time_from_start.sec = int(duration)
-        point.time_from_start.nanosec = int((duration % 1.0) * 1e9)
-        
-        goal_msg.trajectory.points.append(point)
-        
-        try:
-            send_goal_future = self._client.send_goal_async(goal_msg)
-            rclpy.spin_until_future_complete(self, send_goal_future, timeout_sec=0.5)
-            self.get_logger().debug(f"Sent: {goal_name}")
-            return True
-        except Exception as e:
-            self.get_logger().debug(f"Could not send goal: {e}")
-            return False
-    
-    def update_position(self, joint_index, delta):
-        """Update a joint position and send it"""
-        self.current_positions[joint_index] += delta
-        self.send_trajectory(self.current_positions, duration=0.1)
     
     def handle_input(self, key):
         """Handle keyboard input"""
         if key == 'q' or key == 'Q':
-            self.update_position(0, self.base_step)
-            self.get_logger().info(f"X: {self.current_positions[0]:.2f}m")
+            self.arm_movement_publisher_.publish([0, -self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {-self.base_step:.2f} m along x axis")
         elif key == 'e' or key == 'E':
-            self.update_position(0, -self.base_step)
-            self.get_logger().info(f"X: {self.current_positions[0]:.2f}m")
+            self.arm_movement_publisher_.publish([0, self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along x axis")
         
         elif key == 'a' or key == 'A':
-            self.update_position(1, -self.base_step)
-            self.get_logger().info(f"Y: {self.current_positions[1]:.2f}m")
+            self.arm_movement_publisher_.publish([1, -self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along y axis")
         elif key == 'd' or key == 'D':
-            self.update_position(1, self.base_step)
-            self.get_logger().info(f"Y: {self.current_positions[1]:.2f}m")
+            self.arm_movement_publisher_.publish([1, self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along y axis")
         
         elif key == 'w' or key == 'W':
-            self.update_position(2, self.base_step)
-            self.get_logger().info(f"Z: {self.current_positions[2]:.2f}m")
+            self.arm_movement_publisher_.publish([2, self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along z axis")
         elif key == 's' or key == 'S':
-            self.update_position(2, -self.base_step)
-            self.get_logger().info(f"Z: {self.current_positions[2]:.2f}m")
+            self.arm_movement_publisher_.publish([2, -self.base_step])
+            self.get_logger().debug(f"Sent moving goal of {-self.base_step:.2f} m along z axis")
         
         elif key in self.hand_poses:
-            pose = self.hand_poses[key]
-            self.current_positions = self.pose_modifications(pose['modifications'])
-            self.send_trajectory(self.current_positions, duration=1.0, goal_name=pose['name'])
-            self.get_logger().info(f"Executing: {pose['name']}")
+            self.pose_publisher_.publish(self.hand_poses[key])
+            self.get_logger().debug(f"Sent pose number {self.hand_poses[key]} goal")
         
         elif key == 'h' or key == 'H':
             self.print_help()

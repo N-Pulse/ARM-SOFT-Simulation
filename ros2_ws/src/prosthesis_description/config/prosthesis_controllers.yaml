@@ -21,8 +21,10 @@ joint_trajectory_controller:
       - joint_base_x_to_base_y
       - joint_base_y_to_base_z
       - joint_wrist_to_palm
-      - joint_index_mcp
-      - joint_index_pip
+      - joint_index_1
+      - joint_index_2
+      - joint_index_3
+      - joint_index_4
       - joint_middle_mcp
       - joint_middle_pip
       - joint_ring_mcp
