@@ -47,10 +47,9 @@ class KeyboardControlNode(Node):
     def __init__(self):
         super().__init__('keyboard_control')
         
-        self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals')
-        self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals')
-        
-        self.hand_poses = [1, 2, 3, 4, 5, 6]
+        self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals', 10)
+        self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals', 10)
+
         self.base_step = 0.01  # meters for base joints
         
         self.get_logger().info("Keyboard control node initialized")
@@ -70,14 +69,12 @@ class KeyboardControlNode(Node):
         ║    W/S  → Z-axis (up/down)                             ║
         ║                                                        ║
         ║  HAND CONTROL:                                         ║
-        ║    1    → Neutral (all 0°)                             ║
-        ║    2    → All fingers to 0°                            ║
-        ║    3    → Wrist to 0°                                  ║
+        ║    1    → Open hand                                    ║
+        ║    2    → Close hand                                   ║
+        ║    3    → Pinch                                        ║
         ║    4    → Wrist rotated 90° to the left                ║
         ║    5    → Wrist rotated 90° to the right               ║
-        ║    6    → All fingers flexed to 60°                    ║
-        ║    7    → Fingers flexed + wrist left rotated 90°      ║
-        ║    8    → Fingers flexed + wrist right rotated 90°     ║
+        ║                                                        ║
         ║                                                        ║
         ║  OTHER:                                                ║
         ║    H    → Show this help                               ║
@@ -90,29 +87,44 @@ class KeyboardControlNode(Node):
     def handle_input(self, key):
         """Handle keyboard input"""
         if key == 'q' or key == 'Q':
-            self.arm_movement_publisher_.publish([0, -self.base_step])
-            self.get_logger().debug(f"Sent moving goal of {-self.base_step:.2f} m along x axis")
+            msg = Float32MultiArray()
+            msg.data = [0, -self.base_step]
+            self.arm_movement_publisher_.publish(msg)
+            self.get_logger().info(f"Sent moving goal of {-self.base_step:.2f} m along x axis")
         elif key == 'e' or key == 'E':
-            self.arm_movement_publisher_.publish([0, self.base_step])
+            msg = Float32MultiArray()
+            msg.data = [0, self.base_step]
+            self.arm_movement_publisher_.publish(msg)
             self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along x axis")
         
         elif key == 'a' or key == 'A':
-            self.arm_movement_publisher_.publish([1, -self.base_step])
-            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along y axis")
+            msg = Float32MultiArray()
+            msg.data = [1, -self.base_step]
+            self.arm_movement_publisher_.publish(msg)
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along y axis")
         elif key == 'd' or key == 'D':
-            self.arm_movement_publisher_.publish([1, self.base_step])
-            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along y axis")
+            msg = Float32MultiArray()
+            msg.data = [1, self.base_step]
+            self.arm_movement_publisher_.publish(msg)
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along y axis")
         
         elif key == 'w' or key == 'W':
-            self.arm_movement_publisher_.publish([2, self.base_step])
-            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along z axis")
+            msg = Float32MultiArray()
+            msg.data = [2, self.base_step]
+            self.arm_movement_publisher_.publish(msg)
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along z axis")
         elif key == 's' or key == 'S':
-            self.arm_movement_publisher_.publish([2, -self.base_step])
-            self.get_logger().debug(f"Sent moving goal of {-self.base_step:.2f} m along z axis")
+            msg = Float32MultiArray()
+            msg.data = [2, -self.base_step]
+            self.arm_movement_publisher_.publish(msg)
+            self.get_logger().info(f"Sent moving goal of {-self.base_step:.2f} m along z axis")
         
-        elif key in self.hand_poses:
-            self.pose_publisher_.publish(self.hand_poses[key])
-            self.get_logger().debug(f"Sent pose number {self.hand_poses[key]} goal")
+        elif key in ['1', '2', '3', '4', '5', '6']:
+            pose_num = int(key)
+            msg = Int8()
+            msg.data = pose_num
+            self.pose_publisher_.publish(msg)
+            self.get_logger().info(f"Sent pose number {pose_num} goal")
         
         elif key == 'h' or key == 'H':
             self.print_help()
@@ -120,7 +132,7 @@ class KeyboardControlNode(Node):
         elif key == '\x1b':  # ESC key
             self.get_logger().info("Exiting keyboard control...")
             return False
-        
+
         return True
     
     def keyboard_loop(self):

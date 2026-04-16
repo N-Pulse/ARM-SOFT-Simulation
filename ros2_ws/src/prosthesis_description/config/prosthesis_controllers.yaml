@@ -25,15 +25,22 @@ joint_trajectory_controller:
       - joint_index_2
       - joint_index_3
       - joint_index_4
-      - joint_middle_mcp
-      - joint_middle_pip
-      - joint_ring_mcp
-      - joint_ring_pip
-      - joint_little_mcp
-      - joint_little_pip
-      - joint_thumb_cmc
-      - joint_thumb_mcp
-      - joint_thumb_pip
+      - joint_middle_1
+      - joint_middle_2
+      - joint_middle_3
+      - joint_middle_4
+      - joint_ring_1
+      - joint_ring_2
+      - joint_ring_3
+      - joint_ring_4
+      - joint_little_1
+      - joint_little_2
+      - joint_little_3
+      - joint_little_4
+      - joint_thumb_1
+      - joint_thumb_2
+      - joint_thumb_3
+      - joint_thumb_4
 
     command_interfaces:
       - position

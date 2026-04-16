@@ -90,18 +90,13 @@ def generate_launch_description():
             'use_sim_time': True
         }]
     )
-    '''     load_fsr_broadcaster = Node(
-        package='prosthesis_description',
-        executable='fsr_broadcaster.py',
-        output='screen'
-    )
 
-    load_ft_broadcaster = Node(
-        package='prosthesis_description',
-        executable='ft_broadcaster.py',
-        output='screen'
-    )
-    '''
+    """launch_trajectory_control_script = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(pkg_share, 
+                        'scripts', 'trajectory_control.py')
+        ])
+    )"""
 
 
     return LaunchDescription([
@@ -111,6 +106,5 @@ def generate_launch_description():
         ros_gz_bridge,
         load_joint_state_broadcaster,
         load_joint_trajectory_controller
-        #load_fsr_broadcaster,
-        #load_ft_broadcaster
+        #launch_trajectory_control_script
     ])
