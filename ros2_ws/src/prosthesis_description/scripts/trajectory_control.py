@@ -62,12 +62,11 @@ class TrajectoryControlNode(Node):
             "joint_little_4",
             "joint_thumb_1",
             "joint_thumb_2",
-            "joint_thumb_3",
-            "joint_thumb_4"
+            "joint_thumb_3"
         ]
-        
-        self.max_positions = [1.57] * 24 # max. position for each joint (in radian)
-        self.current_positions = [0.0] * 24
+        self.nb_joints = len(self.joint_names)
+        self.max_positions = [1.57] * self.nb_joints # max. position for each joint (in radian)
+        self.current_positions = [0.0] * self.nb_joints
 
         self.get_logger().info("Trajectory_control node initialized")
 
@@ -127,7 +126,7 @@ class TrajectoryControlNode(Node):
                 self.move_joint(i, moving_percentage)
 
         if finger_name == "thumb":
-            for i in range (20,23):
+            for i in range (20,22):
                 self.move_joint(i, moving_percentage)
 
     #----------PREDEFINDED HAND POSES-------------------------

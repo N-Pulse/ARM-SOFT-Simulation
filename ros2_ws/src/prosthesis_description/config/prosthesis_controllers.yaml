@@ -40,7 +40,6 @@ joint_trajectory_controller:
       - joint_thumb_1
       - joint_thumb_2
       - joint_thumb_3
-      - joint_thumb_4
 
     command_interfaces:
       - position

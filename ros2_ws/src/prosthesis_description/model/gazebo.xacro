@@ -25,15 +25,21 @@
           <joint_name>joint_index_2</joint_name>
           <joint_name>joint_index_3</joint_name>
           <joint_name>joint_index_4</joint_name>
-          <joint_name>joint_middle_mcp</joint_name>
-          <joint_name>joint_middle_pip</joint_name>
-          <joint_name>joint_ring_mcp</joint_name>
-          <joint_name>joint_ring_pip</joint_name>
-          <joint_name>joint_little_mcp</joint_name>
-          <joint_name>joint_little_pip</joint_name>
-          <joint_name>joint_thumb_cmc</joint_name>
-          <joint_name>joint_thumb_mcp</joint_name>
-          <joint_name>joint_thumb_pip</joint_name>
+          <joint_name>joint_middle_1</joint_name>
+          <joint_name>joint_middle_2</joint_name>
+          <joint_name>joint_middle_3</joint_name>
+          <joint_name>joint_middle_4</joint_name>
+          <joint_name>joint_ring_1</joint_name>
+          <joint_name>joint_ring_2</joint_name>
+          <joint_name>joint_ring_3</joint_name>
+          <joint_name>joint_ring_4</joint_name>
+          <joint_name>joint_little_1</joint_name>
+          <joint_name>joint_little_2</joint_name>
+          <joint_name>joint_little_3</joint_name>
+          <joint_name>joint_little_4</joint_name>
+          <joint_name>joint_thumb_1</joint_name>
+          <joint_name>joint_thumb_2</joint_name>
+          <joint_name>joint_thumb_3</joint_name>
       </plugin>
     </gazebo>
 
@@ -111,8 +117,8 @@
 
   <!-- Middle finger Gazebo tags -->
   
-  <gazebo reference="middle_proximal_link">
-    <material>Gazebo/SkyBlue</material>
+  <gazebo reference="link_middle_1">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -121,8 +127,28 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="middle_middle_link">
+  <gazebo reference="link_middle_2">
+    <material>Gazebo/Red</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_middle_3">
     <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_middle_4">
+    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -133,8 +159,8 @@
 
   <!-- Ring finger Gazebo tags -->
   
-  <gazebo reference="ring_proximal_link">
-    <material>Gazebo/SkyBlue</material>
+  <gazebo reference="link_ring_1">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -143,11 +169,31 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="ring_middle_link">
+  <gazebo reference="link_ring_2">
+    <material>Gazebo/Red</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_ring_3">
     <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
-    <kp>${rigid_stiffness_default}</kp> 
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_ring_4">
+    <material>Gazebo/Red</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
     <kd>${damping_default}</kd>
     <minDepth>${min_depth_default}</minDepth>
     <maxVel>${max_velocity_default}</maxVel>
@@ -155,8 +201,8 @@
 
   <!-- Little finger Gazebo tags -->
   
-  <gazebo reference="little_proximal_link">
-    <material>Gazebo/SkyBlue</material>
+  <gazebo reference="link_little_1">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -165,8 +211,28 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="little_middle_link">
+  <gazebo reference="link_little_2">
+    <material>Gazebo/Red</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_little_3">
     <material>Gazebo/Blue</material>
+    <mu1>${palm_fingers_friction}</mu1>
+    <mu2>${palm_fingers_friction}</mu2>
+    <kp>${rigid_stiffness_default}</kp>
+    <kd>${damping_default}</kd>
+    <minDepth>${min_depth_default}</minDepth>
+    <maxVel>${max_velocity_default}</maxVel>
+  </gazebo>
+
+  <gazebo reference="link_little_4">
+    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -177,8 +243,8 @@
 
   <!-- Thumb Gazebo tags -->
   
-  <gazebo reference="thumb_metacarpal_link">
-    <material>Gazebo/Green</material>
+  <gazebo reference="link_thumb_1">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -187,8 +253,8 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="thumb_proximal_link">
-    <material>Gazebo/Green</material>
+  <gazebo reference="link_thumb_2">
+    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -197,8 +263,8 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="thumb_distal_link">
-    <material>Gazebo/Green</material>
+  <gazebo reference="link_thumb_3">
+    <material>Gazebo/Blue</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -228,45 +294,45 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="middle_middle_link">
+  <gazebo reference="link_middle_4">
       <sensor name="middle_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>middle_middle_link_collision</collision>
+        <collision>link_middle_4_collision</collision>
         <topic>prosthesis/sensor/middle_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
 
-  <gazebo reference="ring_middle_link">
+  <gazebo reference="link_ring_4">
     <sensor name="ring_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>ring_middle_link_collision</collision>
+        <collision>link_ring_4_collision</collision>
         <topic>prosthesis/sensor/ring_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
 
-  <gazebo reference="little_middle_link">
+  <gazebo reference="link_little_4">
     <sensor name="little_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>little_middle_link_collision</collision>
+        <collision>link_little_4_collision</collision>
         <topic>prosthesis/sensor/little_fsr</topic>
       </contact>
     </sensor>
   </gazebo>
 
-  <gazebo reference="thumb_distal_link">
+  <gazebo reference="link_thumb_3">
     <sensor name="thumb_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
       <contact>
-        <collision>thumb_distal_link_collision</collision>
+        <collision>link_thumb_3_collision</collision>
         <topic>prosthesis/sensor/thumb_fsr</topic>
       </contact>
     </sensor>
@@ -284,7 +350,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="joint_middle_mcp">
+  <gazebo reference="joint_middle_1">
     <sensor name="prosthesis/sensor/middle_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -294,7 +360,7 @@
     </sensor>
   </gazebo>
   
-  <gazebo reference="joint_ring_mcp">
+  <gazebo reference="joint_ring_1">
     <sensor name="prosthesis/sensor/ring_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -304,7 +370,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="joint_little_mcp">
+  <gazebo reference="joint_little_1">
     <sensor name="prosthesis/sensor/little_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -314,7 +380,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="joint_thumb_cmc">
+  <gazebo reference="joint_thumb_1">
     <sensor name="prosthesis/sensor/thumb_ft" type="force_torque">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
