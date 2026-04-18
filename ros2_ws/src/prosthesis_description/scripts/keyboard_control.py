@@ -50,7 +50,7 @@ class KeyboardControlNode(Node):
         self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals', 10)
         self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals', 10)
 
-        self.base_step = 0.01  # meters for base joints
+        self.base_step = 0.001  # meters for base joints
         
         self.get_logger().info("Keyboard control node initialized")
         self.print_help()
@@ -90,36 +90,36 @@ class KeyboardControlNode(Node):
             msg = Float32MultiArray()
             msg.data = [0, -self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {-self.base_step:.2f} m along x axis")
+            self.get_logger().info(f"Sent moving goal of {-self.base_step:.3f} m along x axis")
         elif key == 'e' or key == 'E':
             msg = Float32MultiArray()
             msg.data = [0, self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().debug(f"Sent moving goal of {self.base_step:.2f} m along x axis")
+            self.get_logger().debug(f"Sent moving goal of {self.base_step:.3f} m along x axis")
         
         elif key == 'a' or key == 'A':
             msg = Float32MultiArray()
             msg.data = [1, -self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along y axis")
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along y axis")
         elif key == 'd' or key == 'D':
             msg = Float32MultiArray()
             msg.data = [1, self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along y axis")
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along y axis")
         
         elif key == 'w' or key == 'W':
             msg = Float32MultiArray()
             msg.data = [2, self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {self.base_step:.2f} m along z axis")
+            self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along z axis")
         elif key == 's' or key == 'S':
             msg = Float32MultiArray()
             msg.data = [2, -self.base_step]
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {-self.base_step:.2f} m along z axis")
+            self.get_logger().info(f"Sent moving goal of {-self.base_step:.3f} m along z axis")
         
-        elif key in ['1', '2', '3', '4', '5', '6']:
+        elif key in ['0', '1', '2', '3', '4', '5', '6']:
             pose_num = int(key)
             msg = Int8()
             msg.data = pose_num

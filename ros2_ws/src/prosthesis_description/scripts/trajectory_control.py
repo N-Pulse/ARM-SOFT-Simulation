@@ -65,7 +65,20 @@ class TrajectoryControlNode(Node):
             "joint_thumb_3"
         ]
         self.nb_joints = len(self.joint_names)
-        self.max_positions = [1.57] * self.nb_joints # max. position for each joint (in radian)
+
+        # max. position for each joint (in radian)
+        self.max_positions = [
+            float('inf'), # joint_world_to_base_x: no limit
+            float('inf'), # joint_base_x_to_base_y: no limit
+            float('inf') # joint_base_y_to_base_z: no limit
+        ] + [1.57] * (self.nb_joints-3)
+        # min. position for each joint (in radian)
+        self.min_positions = [
+            float('-inf'), # joint_world_to_base_x: no limit
+            float('-inf'), # joint_base_x_to_base_y: no limit
+            0.0 # joint_base_y_to_base_z: 0.0 (ground level)
+        ] + [-1.57] * (self.nb_joints-3)
+        
         self.current_positions = [0.0] * self.nb_joints
 
         self.get_logger().info("Trajectory_control node initialized")
@@ -98,62 +111,69 @@ class TrajectoryControlNode(Node):
             self.get_logger().debug(f"Could not send goal: {e}")
             return False
         
-    def move_joint(self, joint_index, moving_percentage):
+    def move_joint(self, joint_index, delta):
         """Update a joint position and send it"""
-        self.current_positions[joint_index] += moving_percentage * self.max_positions[joint_index]
-        self.send_trajectory(self.current_positions, duration=0.01)
-        self.get_logger().info(f"Moving {self.joint_names[joint_index]}")
 
-    def move_finger(self, finger_name, moving_percentage):
+        new_position = self.current_positions[joint_index] + delta
+    
+        # Clamp to allowed range
+        new_position = max(self.min_positions[joint_index], 
+                      min(new_position, self.max_positions[joint_index]))
+    
+        self.current_positions[joint_index] = new_position
+        self.send_trajectory(self.current_positions, duration=0.01)
+        self.get_logger().info(f"Moving {self.joint_names[joint_index]} to {new_position:.3f}")
+
+    def move_finger(self, finger_name, delta):
         """Update a finger position and send it"""
         if finger_name not in ["index", "middle", "ring", "little", "thumb"]:
             raise ValueError("The name of the finger must be index, middle, ring, little or thumb")
 
         if finger_name == "index":
             for i in range (4,7):
-                self.move_joint(i, moving_percentage)
+                self.move_joint(i, delta)
 
         if finger_name == "middle":
             for i in range (8,11):
-                self.move_joint(i, moving_percentage)
+                self.move_joint(i, delta)
 
         if finger_name == "ring":
             for i in range (12,15):
-                self.move_joint(i, moving_percentage)
+                self.move_joint(i, delta)
 
         if finger_name == "little":
             for i in range (16,19):
-                self.move_joint(i, moving_percentage)
+                self.move_joint(i, delta)
 
         if finger_name == "thumb":
             for i in range (20,22):
-                self.move_joint(i, moving_percentage)
+                self.move_joint(i, delta)
 
     #----------PREDEFINDED HAND POSES-------------------------
     def hand_pose_0(self):
         """open hand"""
         for i in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(i,0)      
+            self.move_finger(i,-1.57)      
 
     def hand_pose_1(self):
         """close hand"""
         for i in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(i,100)
+            self.move_finger(i,1.57)
     
     def hand_pose_2(self):
         """pinch"""
         for i in ["index", "thumb"]:
-            self.move_finger(i,100) 
+            self.move_finger(i,1.57) 
         for i in ["middle", "ring", "little"]:
-            self.move_finger(i,0)
+            self.move_finger(i,-1.57)
     
     def hand_pose_3(self):
         """rotate wrist right"""
-        self.move_joint(3, 100)
+        self.move_joint(3, 1.57)
 
     def hand_pose_4(self):
         """rotate wrist left"""
-        self.move_joint(3, -100)
+        self.move_joint(3, -1.57)
     #------------------------------------------------------
 
     def handle_arm_mvmt_goals(self, msg):
