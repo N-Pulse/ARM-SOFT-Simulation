@@ -4,6 +4,12 @@
   gz_type_name: "gz.msgs.Clock"
   direction: "GZ_TO_ROS"
 
+- ros_topic_name: "prosthesis/sensor/palm_imu"
+  gz_topic_name: "prosthesis/sensor/palm_imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: "GZ_TO_ROS"
+
 - ros_topic_name: "prosthesis/sensor/index_fsr"
   gz_topic_name: "prosthesis/sensor/index_fsr"
   ros_type_name: "ros_gz_interfaces/msg/Contacts"

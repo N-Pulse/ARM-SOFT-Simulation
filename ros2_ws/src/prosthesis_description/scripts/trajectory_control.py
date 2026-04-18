@@ -5,7 +5,7 @@ Trajectory control node (handling the fingers dynamic) which subscribes to /traj
 """
 import rclpy
 from rclpy.node import Node
-#from launch import LaunchDescriptionEntity
+from sensor_msgs.msg import JointState
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int8
 from rclpy.action import ActionClient
@@ -17,6 +17,11 @@ class TrajectoryControlNode(Node):
     
     def __init__(self):
         super().__init__('trajectory_control')
+
+        self.last_joint_states = None
+        self.joint_states_subscription_ = self.create_subscription(
+            JointState, '/joint_states', self.joint_states_callback, 10
+        )
         
         self.arm_movement_subscription_ = self.create_subscription(
             Float32MultiArray,
@@ -38,51 +43,11 @@ class TrajectoryControlNode(Node):
             FollowJointTrajectory,
             '/joint_trajectory_controller/follow_joint_trajectory'
         )
-        
-        self.joint_names = [
-            "joint_world_to_base_x",
-            "joint_base_x_to_base_y",
-            "joint_base_y_to_base_z",
-            "joint_wrist_to_palm",
-            "joint_index_1",
-            "joint_index_2",
-            "joint_index_3",
-            "joint_index_4",
-            "joint_middle_1",
-            "joint_middle_2",
-            "joint_middle_3",
-            "joint_middle_4",
-            "joint_ring_1",
-            "joint_ring_2",
-            "joint_ring_3",
-            "joint_ring_4",
-            "joint_little_1",
-            "joint_little_2",
-            "joint_little_3",
-            "joint_little_4",
-            "joint_thumb_1",
-            "joint_thumb_2",
-            "joint_thumb_3"
-        ]
-        self.nb_joints = len(self.joint_names)
-
-        # max. position for each joint (in radian)
-        self.max_positions = [
-            float('inf'), # joint_world_to_base_x: no limit
-            float('inf'), # joint_base_x_to_base_y: no limit
-            float('inf') # joint_base_y_to_base_z: no limit
-        ] + [1.57] * (self.nb_joints-3)
-        # min. position for each joint (in radian)
-        self.min_positions = [
-            float('-inf'), # joint_world_to_base_x: no limit
-            float('-inf'), # joint_base_x_to_base_y: no limit
-            0.0 # joint_base_y_to_base_z: 0.0 (ground level)
-        ] + [-1.57] * (self.nb_joints-3)
-        
-        self.current_positions = [0.0] * self.nb_joints
 
         self.get_logger().info("Trajectory_control node initialized")
 
+    def joint_states_callback(self, msg):
+        self.last_joint_states = msg
 
     def send_trajectory(self, positions, duration=0.1, goal_name="Goal"):
         """Send a joint trajectory goal to the controller"""
@@ -93,7 +58,7 @@ class TrajectoryControlNode(Node):
             return False
         
         goal_msg = FollowJointTrajectory.Goal()
-        goal_msg.trajectory.joint_names = self.joint_names
+        goal_msg.trajectory.joint_names = self.last_joint_states.name
         
         point = JointTrajectoryPoint()
         point.positions = positions
@@ -113,59 +78,50 @@ class TrajectoryControlNode(Node):
         
     def move_joint(self, joint_index, delta):
         """Update a joint position and send it"""
+        if self.last_joint_states is None:
+            self.get_logger().warn("No joint states received yet")
+            return
 
-        new_position = self.current_positions[joint_index] + delta
-    
-        # Clamp to allowed range
-        new_position = max(self.min_positions[joint_index], 
-                      min(new_position, self.max_positions[joint_index]))
-    
-        self.current_positions[joint_index] = new_position
-        self.send_trajectory(self.current_positions, duration=0.01)
-        self.get_logger().info(f"Moving {self.joint_names[joint_index]} to {new_position:.3f}")
+        new_position = self.last_joint_states.position[joint_index] + delta
+        
+        new_positions = self.last_joint_states.position
+        new_positions[joint_index] = new_position
+        self.send_trajectory(new_positions, duration=0.001)
+        self.get_logger().info(f"Moving {self.last_joint_states.name[joint_index]} to {new_position:.3f}")
 
     def move_finger(self, finger_name, delta):
         """Update a finger position and send it"""
         if finger_name not in ["index", "middle", "ring", "little", "thumb"]:
             raise ValueError("The name of the finger must be index, middle, ring, little or thumb")
 
-        if finger_name == "index":
-            for i in range (4,7):
-                self.move_joint(i, delta)
-
-        if finger_name == "middle":
-            for i in range (8,11):
-                self.move_joint(i, delta)
-
-        if finger_name == "ring":
-            for i in range (12,15):
-                self.move_joint(i, delta)
-
-        if finger_name == "little":
-            for i in range (16,19):
-                self.move_joint(i, delta)
-
-        if finger_name == "thumb":
-            for i in range (20,22):
-                self.move_joint(i, delta)
+        finger_ranges = {
+            "index": range(4, 8),
+            "middle": range(8, 12),
+            "ring": range(12, 16),
+            "little": range(16, 20),
+            "thumb": range(20, 23)
+        }
+        
+        for i in finger_ranges[finger_name]:
+            self.move_joint(i, delta)
 
     #----------PREDEFINDED HAND POSES-------------------------
     def hand_pose_0(self):
         """open hand"""
-        for i in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(i,-1.57)      
+        for finger in ["index", "middle", "ring", "little", "thumb"]:
+            self.move_finger(finger, -1.57)      
 
     def hand_pose_1(self):
         """close hand"""
-        for i in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(i,1.57)
+        for finger in ["index", "middle", "ring", "little", "thumb"]:
+            self.move_finger(finger, 1.57)
     
     def hand_pose_2(self):
         """pinch"""
-        for i in ["index", "thumb"]:
-            self.move_finger(i,1.57) 
-        for i in ["middle", "ring", "little"]:
-            self.move_finger(i,-1.57)
+        for finger in ["index", "thumb"]:
+            self.move_finger(finger, 1.57) 
+        for finger in ["middle", "ring", "little"]:
+            self.move_finger(finger, -1.57)
     
     def hand_pose_3(self):
         """rotate wrist right"""
@@ -178,23 +134,19 @@ class TrajectoryControlNode(Node):
 
     def handle_arm_mvmt_goals(self, msg):
         joint_index = int(msg.data[0])
-        moving_percentage = msg.data[1]*100
-        self.move_joint(joint_index, moving_percentage)
+        delta = msg.data[1]
+        self.move_joint(joint_index, delta)
 
     def handle_pose_goals(self, msg):
-        if msg.data == 0 :
-            self.hand_pose_0()
-        if msg.data == 1 :
-            self.hand_pose_1()
-        if msg.data == 2 :
-            self.hand_pose_2()
-        if msg.data == 3 :
-            self.hand_pose_3()
-        if msg.data == 4 :
-            self.hand_pose_4()
-
-
-
+        poses = {
+            0: self.hand_pose_0,
+            1: self.hand_pose_1,
+            2: self.hand_pose_2,
+            3: self.hand_pose_3,
+            4: self.hand_pose_4
+        }
+        if msg.data in poses:
+            poses[msg.data]()
 
 def main():
     rclpy.init()

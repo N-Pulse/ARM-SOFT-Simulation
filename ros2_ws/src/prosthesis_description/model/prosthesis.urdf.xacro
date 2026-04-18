@@ -412,7 +412,7 @@
           <parent link="world"/>
           <child link="base_link_x_frame"/>
           <axis xyz="1 0 0"/>
-          <limit lower="-2.0" upper="2.0" effort="100" velocity="1.0"/>
+          <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base X → Base Y (prismatic joint for y-axis motion) -->
@@ -421,7 +421,7 @@
           <parent link="base_link_x_frame"/>
           <child link="base_link_y_frame"/>
           <axis xyz="0 1 0"/>
-          <limit lower="-2.0" upper="2.0" effort="100" velocity="1.0"/>
+          <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base Y → Base Link (prismatic joint for z-axis motion) -->
@@ -430,7 +430,7 @@
           <parent link="base_link_y_frame"/>
           <child link="base_link"/>
           <axis xyz="0 0 1"/>
-          <limit lower="0.0" upper="2.0" effort="100" velocity="1.0"/>
+          <limit lower="0.0" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base → Wrist -->
@@ -469,7 +469,7 @@
       <parent link="link_index_2"/>
       <child link="link_index_3"/>
       <origin xyz="0.02 0.0025 0.0133" rpy="0 0 0"/><axis xyz="0 1 0"/>
-      <limit lower="0.0" upper="0.79" effort="2" velocity="5"/>
+      <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
     </joint>
     <joint name="joint_index_4" type="revolute">
       <parent link="link_index_3"/><child link="link_index_4"/>

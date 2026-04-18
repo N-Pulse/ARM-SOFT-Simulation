@@ -50,7 +50,7 @@ class KeyboardControlNode(Node):
         self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals', 10)
         self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals', 10)
 
-        self.base_step = 0.001  # meters for base joints
+        self.base_step = 0.01  # meters for base joints
         
         self.get_logger().info("Keyboard control node initialized")
         self.print_help()
