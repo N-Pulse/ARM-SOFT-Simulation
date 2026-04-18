@@ -50,12 +50,18 @@ colcon build
 source install/setup.bash
 ros2 launch prosthesis_description gazebo.launch.py
 ```
+To control the prosthesis trajectory open a new terminal and run :
+```
+source install/setup.bash
+ros2 run prosthesis_description trajectory_control.py
+```
 To move the prosthesis base (arm) with your keyboard open a new terminal and run : 
 ```
 source install/setup.bash
 ros2 run prosthesis_description keyboard_control.py
 ``` 
 Then follow the printed instructions.
+
 
 To move each joint of the prothesis with a GUI, open a new terminal and run :
 ```
