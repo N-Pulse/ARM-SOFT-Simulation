@@ -40,6 +40,12 @@
   gz_type_name: "gz.msgs.Contacts"
   direction: "GZ_TO_ROS"
 
+- ros_topic_name: "prosthesis/sensor/wrist_ft"
+  gz_topic_name: "prosthesis/sensor/wrist_ft"
+  ros_type_name: "geometry_msgs/msg/WrenchStamped"
+  gz_type_name: "gz.msgs.Wrench"
+  direction: "GZ_TO_ROS"
+
 - ros_topic_name: "prosthesis/sensor/index_ft"
   gz_topic_name: "prosthesis/sensor/index_ft"
   ros_type_name: "geometry_msgs/msg/WrenchStamped"
@@ -47,7 +53,7 @@
   direction: "GZ_TO_ROS"
 
 - ros_topic_name: "prosthesis/sensor/middle_ft"
-  gz_topic_name: "/middle_ft"
+  gz_topic_name: "prosthesis/sensor/middle_ft"
   ros_type_name: "geometry_msgs/msg/WrenchStamped"
   gz_type_name: "gz.msgs.Wrench"
   direction: "GZ_TO_ROS"

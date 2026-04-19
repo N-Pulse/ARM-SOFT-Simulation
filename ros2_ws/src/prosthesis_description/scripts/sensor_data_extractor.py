@@ -8,7 +8,9 @@ from rclpy.node import Node
 #from sensor_msgs.msg import Imu
 #from ros_gz_interfaces.msg import Contacts
 from geometry_msgs.msg import WrenchStamped
+from geometry_msgs.msg import Vector3
 from std_msgs.msg import Float32MultiArray
+import math
 
 class SensorDataExtractor(Node):
     def __init__(self):
@@ -44,20 +46,20 @@ class SensorDataExtractor(Node):
         )
         '''
         self.torque_values = {
-            'wrist' : None,
-            'index': None,
-            'middle': None,
-            'ring': None,
-            'little': None,
-            'thumb': None
+            'wrist' : Vector3(),
+            'index': Vector3(),
+            'middle': Vector3(),
+            'ring': Vector3(),
+            'little': Vector3(),
+            'thumb': Vector3()
         } # should be one for each motor
 
         self.motor_torque_constant = 4/5
 
-        for finger in self.torque_values.keys():
+        for joint in self.torque_values.keys():
             self.create_subscription(
-                WrenchStamped, f'prosthesis/sensor/{finger}_ft', 
-                lambda msg, f=finger: self.extract_ft_data(msg, f), 10
+                WrenchStamped, f'prosthesis/sensor/{joint}_ft', 
+                lambda msg, j=joint: self.extract_ft_data(msg, j), 10
             )
         
         self.resulting_current_publisher_ = self.create_publisher(
@@ -74,21 +76,22 @@ class SensorDataExtractor(Node):
     def joint_state_callback(self, msg):
         self.last_joint_state_msg = msg
 
-    def extract_ft_data(self, msg, finger_name):
-        self.torque_values[finger_name] = msg.data.wrench.torque
-        self.get_logger().debug(f"Received torque for {finger_name}: {msg.data.wrench.torque}")
+    def extract_ft_data(self, msg, joint):
+        self.torque_values[joint] = msg.wrench.torque
+        self.get_logger().debug(f"Received torque for {joint}: {msg.wrench.torque}")
     
-    def torque_to_current(self, torque_value):
-        current_value = torque_value / self.motor_torque_constant
+    def torque_to_current(self, torque_values):
+        torque = math.sqrt(torque_values.x**2 + torque_values.y**2 + torque_values.z**2)
+        current_value = torque / self.motor_torque_constant
         return current_value
     
     def timer_callback(self):
 
         motors_resulting_current = Float32MultiArray()
+        
         for finger in self.torque_values.keys():
-            motors_resulting_current.data.append(
-                self.torque_to_current(self, self.torque_values[finger])
-            )
+            motors_resulting_current.data.append(self.torque_to_current(self.torque_values[finger]))
+
         self.resulting_current_publisher_.publish(motors_resulting_current)
 
 def main():
