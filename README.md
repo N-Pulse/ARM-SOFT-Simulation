@@ -55,11 +55,19 @@ To control the prosthesis trajectory open a new terminal and run :
 source install/setup.bash
 ros2 run prosthesis_description trajectory_control.py
 ```
+
 To move the prosthesis base (arm) with your keyboard open a new terminal and run : 
 ```
 source install/setup.bash
 ros2 run prosthesis_description keyboard_control.py
 ``` 
+Then follow the printed instructions.
+
+
+To move the prosthesis base (arm) with a gamepad controller open a new terminal and run :
+```
+ros2 run joy joy_node --ros-args --params-file src/prosthesis_description/config/joy_node.yaml
+```
 Then follow the printed instructions.
 
 

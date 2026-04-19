@@ -15,37 +15,6 @@
     </plugin>
   </gazebo>
 
-  <!--<gazebo>
-      <plugin
-          filename="gz-sim-joint-state-publisher-system"
-          name="gz::sim::systems::JointStatePublisher">
-          <topic>joint_states</topic>
-          <joint_name>joint_world_to_base_x</joint_name>
-          <joint_name>joint_base_x_to_base_y</joint_name>
-          <joint_name>joint_base_y_to_base_z</joint_name>
-          <joint_name>joint_wrist_to_palm</joint_name>
-          <joint_name>joint_index_1</joint_name>
-          <joint_name>joint_index_2</joint_name>
-          <joint_name>joint_index_3</joint_name>
-          <joint_name>joint_index_4</joint_name>
-          <joint_name>joint_middle_1</joint_name>
-          <joint_name>joint_middle_2</joint_name>
-          <joint_name>joint_middle_3</joint_name>
-          <joint_name>joint_middle_4</joint_name>
-          <joint_name>joint_ring_1</joint_name>
-          <joint_name>joint_ring_2</joint_name>
-          <joint_name>joint_ring_3</joint_name>
-          <joint_name>joint_ring_4</joint_name>
-          <joint_name>joint_little_1</joint_name>
-          <joint_name>joint_little_2</joint_name>
-          <joint_name>joint_little_3</joint_name>
-          <joint_name>joint_little_4</joint_name>
-          <joint_name>joint_thumb_1</joint_name>
-          <joint_name>joint_thumb_2</joint_name>
-          <joint_name>joint_thumb_3</joint_name>
-      </plugin>
-    </gazebo>-->
-
   <!-- Base and palm Gazebo tags -->
   
   <gazebo reference="base_link">

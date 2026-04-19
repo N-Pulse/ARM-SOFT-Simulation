@@ -27,7 +27,7 @@ install(
   DIRECTORY launch meshes model config worlds scripts DESTINATION share/${PROJECT_NAME}
 )
 install(
-  PROGRAMS scripts/keyboard_control.py scripts/trajectory_control.py scripts/sensor_data_extractor.py 
+  PROGRAMS scripts/keyboard_control.py scripts/trajectory_control.py scripts/sensor_data_extractor.py scripts/gamepad_control.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
