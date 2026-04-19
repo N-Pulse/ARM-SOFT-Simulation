@@ -66,6 +66,7 @@ Then follow the printed instructions.
 
 To move the prosthesis base (arm) with a gamepad controller open a new terminal and run :
 ```
+source install/setup.bash
 ros2 run joy joy_node --ros-args --params-file src/prosthesis_description/config/joy_node.yaml
 ```
 Then follow the printed instructions.
@@ -73,7 +74,14 @@ Then follow the printed instructions.
 
 To move each joint of the prothesis with a GUI, open a new terminal and run :
 ```
+source install/setup.bash
 ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller
+```
+
+To send back the resulting current on each finger and wrist , open a new terminal and run :
+```
+source install/setup.bash
+ros2 run prosthesis_description sensor_data_extractor.py
 ```
 
 
