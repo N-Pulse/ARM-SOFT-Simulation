@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# subscribes to sensors topics and publishes current to /resulting_current
+# subscribes to sensors topics and publishes current to /motor_currents
 
 import rclpy
 from rclpy.node import Node
@@ -12,9 +12,9 @@ from geometry_msgs.msg import Vector3
 from std_msgs.msg import Float32MultiArray
 import math
 
-class SensorDataExtractor(Node):
+class MotorCurrentsExtractor(Node):
     def __init__(self):
-        super().__init__("sensor_data_extractor")
+        super().__init__("motor_currents_extractor")
 
         '''
         self.imu_subscription_ = self.create_subscription(
@@ -62,9 +62,9 @@ class SensorDataExtractor(Node):
                 lambda msg, j=joint: self.extract_ft_data(msg, j), 10
             )
         
-        self.resulting_current_publisher_ = self.create_publisher(
+        self.motor_currents_publisher_ = self.create_publisher(
             Float32MultiArray,
-            '/resulting_current',
+            '/motor_currents',
             10
         )
 
@@ -87,16 +87,16 @@ class SensorDataExtractor(Node):
     
     def timer_callback(self):
 
-        motors_resulting_current = Float32MultiArray()
+        motor_currents = Float32MultiArray()
         
         for finger in self.torque_values.keys():
-            motors_resulting_current.data.append(self.torque_to_current(self.torque_values[finger]))
+            motor_currents.data.append(self.torque_to_current(self.torque_values[finger]))
 
-        self.resulting_current_publisher_.publish(motors_resulting_current)
+        self.motor_currents_publisher_.publish(motor_currents)
 
 def main():
     rclpy.init()
-    node = SensorDataExtractor()
+    node = MotorCurrentsExtractor()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
