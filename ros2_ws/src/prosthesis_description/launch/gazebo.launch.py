@@ -91,12 +91,11 @@ def generate_launch_description():
         }]
     )
 
-    """launch_trajectory_control_script = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            os.path.join(pkg_share, 
-                        'scripts', 'trajectory_control.py')
-        ])
-    )"""
+    launch_trajectory_control_script = Node (
+        package = pkg_name,
+        executable = 'trajectory_control.py',
+        name = 'TrajectoryControlNode'
+    )
 
 
     return LaunchDescription([
@@ -105,6 +104,6 @@ def generate_launch_description():
         spawn_entity,
         ros_gz_bridge,
         load_joint_state_broadcaster,
-        load_joint_trajectory_controller
-        #launch_trajectory_control_script
+        load_joint_trajectory_controller,
+        launch_trajectory_control_script
     ])

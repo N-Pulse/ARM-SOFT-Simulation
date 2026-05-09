@@ -84,9 +84,9 @@ class TrajectoryControlNode(Node):
 
         new_position = self.last_joint_states.position[joint_index] + delta
         
-        new_positions = self.last_joint_states.position
+        new_positions = self.last_joint_states.position #make a copy
         new_positions[joint_index] = new_position
-        self.send_trajectory(new_positions, duration=0.001)
+        self.send_trajectory(new_positions, duration=0.1)
         self.get_logger().info(f"Moving {self.last_joint_states.name[joint_index]} to {new_position:.3f}")
 
     def move_finger(self, finger_name, delta):
