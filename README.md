@@ -2,6 +2,7 @@
 
 ## About the project 
 The aim of this project is to simulate the prosthesis using a physics engine that allows real-time control via electromyography (EMG), electroencephalography signals (EEG) and computer vision (CV). The simulation is based on ROS2 and Gazebo and includes a model of the prosthesis, as well as tools for visualizing and controlling the prosthesis in real-time.
+<img width="656" height="378" alt="Screenshot from 2026-05-10 00-24-41" src="https://github.com/user-attachments/assets/f0265cb8-bad2-442c-becc-10d9b63f78e6" />
 
 ## Structure of the repository 
 
