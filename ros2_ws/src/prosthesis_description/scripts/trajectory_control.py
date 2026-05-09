@@ -95,11 +95,11 @@ class TrajectoryControlNode(Node):
             raise ValueError("The name of the finger must be index, middle, ring, little or thumb")
 
         finger_ranges = {
-            "index": range(4, 8),
-            "middle": range(8, 12),
-            "ring": range(12, 16),
-            "little": range(16, 20),
-            "thumb": range(20, 23)
+            "index": range(4, 7),
+            "middle": range(7, 10),
+            "ring": range(10, 13),
+            "little": range(13, 16),
+            "thumb": range(16, 19)
         }
         
         for i in finger_ranges[finger_name]:
@@ -109,27 +109,27 @@ class TrajectoryControlNode(Node):
     def hand_pose_0(self):
         """open hand"""
         for finger in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(finger, -1.57)      
+            self.move_finger(finger, -1)      
 
     def hand_pose_1(self):
         """close hand"""
         for finger in ["index", "middle", "ring", "little", "thumb"]:
-            self.move_finger(finger, 1.57)
+            self.move_finger(finger, 1)
     
     def hand_pose_2(self):
         """pinch"""
         for finger in ["index", "thumb"]:
-            self.move_finger(finger, 1.57) 
+            self.move_finger(finger, 1) 
         for finger in ["middle", "ring", "little"]:
-            self.move_finger(finger, -1.57)
-    
+            self.move_finger(finger, -1)
+
     def hand_pose_3(self):
         """rotate wrist right"""
-        self.move_joint(3, 1.57)
+        self.move_joint(3, 1)
 
     def hand_pose_4(self):
         """rotate wrist left"""
-        self.move_joint(3, -1.57)
+        self.move_joint(3, -1)
     #------------------------------------------------------
 
     def handle_arm_mvmt_goals(self, msg):

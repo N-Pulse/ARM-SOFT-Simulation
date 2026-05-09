@@ -77,16 +77,6 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="link_index_4">
-    <material>Gazebo/Red</material>
-    <mu1>${palm_fingers_friction}</mu1>
-    <mu2>${palm_fingers_friction}</mu2>
-    <kp>${rigid_stiffness_default}</kp>
-    <kd>${damping_default}</kd>
-    <minDepth>${min_depth_default}</minDepth>
-    <maxVel>${max_velocity_default}</maxVel>
-  </gazebo>
-
   <!-- Middle finger Gazebo tags -->
   
   <gazebo reference="link_middle_1">
@@ -111,16 +101,6 @@
 
   <gazebo reference="link_middle_3">
     <material>Gazebo/Blue</material>
-    <mu1>${palm_fingers_friction}</mu1>
-    <mu2>${palm_fingers_friction}</mu2>
-    <kp>${rigid_stiffness_default}</kp>
-    <kd>${damping_default}</kd>
-    <minDepth>${min_depth_default}</minDepth>
-    <maxVel>${max_velocity_default}</maxVel>
-  </gazebo>
-
-  <gazebo reference="link_middle_4">
-    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -161,16 +141,6 @@
     <maxVel>${max_velocity_default}</maxVel>
   </gazebo>
 
-  <gazebo reference="link_ring_4">
-    <material>Gazebo/Red</material>
-    <mu1>${palm_fingers_friction}</mu1>
-    <mu2>${palm_fingers_friction}</mu2>
-    <kp>${rigid_stiffness_default}</kp>
-    <kd>${damping_default}</kd>
-    <minDepth>${min_depth_default}</minDepth>
-    <maxVel>${max_velocity_default}</maxVel>
-  </gazebo>
-
   <!-- Little finger Gazebo tags -->
   
   <gazebo reference="link_little_1">
@@ -195,16 +165,6 @@
 
   <gazebo reference="link_little_3">
     <material>Gazebo/Blue</material>
-    <mu1>${palm_fingers_friction}</mu1>
-    <mu2>${palm_fingers_friction}</mu2>
-    <kp>${rigid_stiffness_default}</kp>
-    <kd>${damping_default}</kd>
-    <minDepth>${min_depth_default}</minDepth>
-    <maxVel>${max_velocity_default}</maxVel>
-  </gazebo>
-
-  <gazebo reference="link_little_4">
-    <material>Gazebo/Red</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -257,7 +217,7 @@
 
   <!-- FSR -->
 
-  <gazebo reference="link_index_4">
+  <gazebo reference="link_index_3">
     <sensor name="prosthesis/sensor/index_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -268,7 +228,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="link_middle_4">
+  <gazebo reference="link_middle_3">
       <sensor name="prosthesis/sensor/middle_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -279,7 +239,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="link_ring_4">
+  <gazebo reference="link_ring_3">
     <sensor name="prosthesis/sensor/ring_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -290,7 +250,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="link_little_4">
+  <gazebo reference="link_little_3">
     <sensor name="prosthesis/sensor/little_fsr" type="contact">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
