@@ -1,35 +1,65 @@
 controller_manager:
   ros__parameters:
     update_rate: 1000  # Hz
+    
+# ===== JOINT STATE BROADCASTER =====
+# publishes state of all joint states in parameter
+# to a topic of type sensor_msgs/msg/JointState
+joint_state_broadcaster:
+  ros__parameters:
+    type: joint_state_broadcaster/JointStateBroadcaster
+    activate_on_startup: true
+    joints:
+      - joint_world_to_base_x
+      - joint_base_x_to_base_y
+      - joint_base_y_to_base_z
+      - joint_wrist_to_palm
+      - joint_index_1
+      - joint_index_2
+      - joint_index_3
+      - joint_middle_1
+      - joint_middle_2
+      - joint_middle_3
+      - joint_ring_1
+      - joint_ring_2
+      - joint_ring_3
+      - joint_little_1
+      - joint_little_2
+      - joint_little_3
+      - joint_thumb_1
+      - joint_thumb_2
+      - joint_thumb_3
+    interfaces:
+      - position
+      - velocity
 
-    # publishes state of all resources registered to a hardware_interface::StateInterface
-    # to a topic of type sensor_msgs/msg/JointState
-    joint_state_broadcaster: 
-      type: joint_state_broadcaster/JointStateBroadcaster
-      activate_on_startup: true
-
-    joint_trajectory_controller:
-      type: "joint_trajectory_controller/JointTrajectoryController"
-      activate_on_startup: true
-
+# ===== TRAJECTORY CONTROLLER =====
 # creates an action called /joint_trajectory_controller/follow_joint_trajectory 
 # of type control_msgs::action::FollowJointTrajectory
 joint_trajectory_controller:
   ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    activate_on_startup: true
     joints:
+      - joint_world_to_base_x
+      - joint_base_x_to_base_y
+      - joint_base_y_to_base_z
       - joint_wrist_to_palm
-      - joint_index_mcp
-      - joint_index_pip
-      - joint_middle_mcp
-      - joint_middle_pip
-      - joint_ring_mcp
-      - joint_ring_pip
-      - joint_little_mcp
-      - joint_little_pip
-      - joint_thumb_cmc
-      - joint_thumb_mcp
-      - joint_thumb_ip
-
+      - joint_index_1
+      - joint_index_2
+      - joint_index_3
+      - joint_middle_1
+      - joint_middle_2
+      - joint_middle_3
+      - joint_ring_1
+      - joint_ring_2
+      - joint_ring_3
+      - joint_little_1
+      - joint_little_2
+      - joint_little_3
+      - joint_thumb_1
+      - joint_thumb_2
+      - joint_thumb_3
     command_interfaces:
       - position
     state_interfaces:

@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
-
-<!-- File containing all useful values for the robot description -->
-
+<robot name="prosthesis" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- File containing all useful values for the robot description -->
     <!-- ==== PROSTHESIS VALUES ==== -->
     
     <!-- Dimensions for each link -->
@@ -13,27 +10,12 @@
     <xacro:property name="palm_length" value="0.068" />
     <xacro:property name="palm_width" value="0.098" />
     <xacro:property name="palm_depth" value="0.019" />
-    <xacro:property name="index_proximal_length" value="0.025" />
-    <xacro:property name="index_proximal_width" value="0.015" />
-    <xacro:property name="index_proximal_depth" value="0.012" />
-    <xacro:property name="index_middle_length" value="0.05" />
-    <xacro:property name="index_middle_width" value="0.015" />
-    <xacro:property name="index_middle_depth" value="0.012" />
-    <xacro:property name="middle_proximal_length" value="0.025" />
-    <xacro:property name="middle_proximal_width" value="0.015" />
-    <xacro:property name="middle_proximal_depth" value="0.012" />
-    <xacro:property name="ring_proximal_length" value="0.025" />
-    <xacro:property name="ring_proximal_width" value="0.015" />
-    <xacro:property name="ring_proximal_depth" value="0.012" />
-    <xacro:property name="ring_middle_length" value="0.05" />
-    <xacro:property name="ring_middle_width" value="0.015" />
-    <xacro:property name="ring_middle_depth" value="0.012" />
-    <xacro:property name="little_proximal_length" value="0.025" />
-    <xacro:property name="little_proximal_width" value="0.015" />
-    <xacro:property name="little_proximal_depth" value="0.012" />
-    <xacro:property name="little_middle_length" value="0.05" />
-    <xacro:property name="little_middle_width" value="0.015" />
-    <xacro:property name="little_middle_depth" value="0.012" />
+    <xacro:property name="finger_proximal_length" value="0.025" />
+    <xacro:property name="finger_proximal_width" value="0.015" />
+    <xacro:property name="finger_proximal_depth" value="0.012" />
+    <xacro:property name="finger_middle_length" value="0.05" />
+    <xacro:property name="finger_middle_width" value="0.015" />
+    <xacro:property name="finger_middle_depth" value="0.012" />
     <xacro:property name="thumb_metacarpal_length" value="0.01" /> 
     <xacro:property name="thumb_metacarpal_width" value="0.015" />
     <xacro:property name="thumb_metacarpal_depth" value="0.012" />
@@ -46,8 +28,7 @@
 
     <!-- MCP X and Y positions for each finger relative to palm_link -->
     <xacro:property name="mcp_x" value="${palm_length}" />
-
-    <xacro:property name="finger_width" value="${index_proximal_length}" />
+    <xacro:property name="finger_width" value="${finger_proximal_width}" />
     <xacro:property name="spacing_area" value="${palm_width - finger_width * 4}"/>
     <xacro:property name="d" value="${spacing_area / 5}"/>
 
