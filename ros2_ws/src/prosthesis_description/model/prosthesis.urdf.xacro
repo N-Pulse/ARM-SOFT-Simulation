@@ -10,21 +10,21 @@
     <link name="world" />
     
     <!-- Intermediate kinematic links for base movement (x, y, z) -->
-    <link name="base_link_x_frame">
+    <link name="link_base_x">
       <inertial>
         <mass value="0.001"/>
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
       </inertial>
     </link>
 
-    <link name="base_link_y_frame">
+    <link name="link_base_y">
       <inertial>
         <mass value="0.001"/>
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
       </inertial>
     </link>
     
-    <link name="base_link">
+    <link name="link_base_z">
       <visual>
           <origin xyz="0 0 0" rpy="0 0 1.53"/>
           <geometry><mesh filename="$(find prosthesis_description)/meshes/forearm_final.stl"/></geometry>
@@ -40,11 +40,16 @@
 
     <xacro:property name="wrist_radius" value="0.01" />
 
-    <link name="wrist_link">
+    <link name="link_wrist_x">
       <collision>
           <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
           <geometry><sphere radius="${wrist_radius}"/></geometry>
       </collision>
+      <xacro:inertial_sphere mass="0.2" radius="${wrist_radius}">
+          <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
+      </xacro:inertial_sphere>
+    </link>
+    <link name="link_wrist_y">
       <xacro:inertial_sphere mass="0.2" radius="${wrist_radius}">
           <origin xyz="${wrist_radius} 0 0" rpy="0 0 0"/>
       </xacro:inertial_sphere>
@@ -303,7 +308,7 @@
 
     <!-- Thumb -->
 
-    <link name="link_thumb_1">
+    <link name="link_thumb_1_x">
       <visual>
           <origin xyz="0 0 0" rpy="0 1.57 0"/>
           <geometry><mesh filename="$(find prosthesis_description)/meshes/SupportThumb.stl"/></geometry>
@@ -312,6 +317,11 @@
           <origin xyz="0 0 0" rpy="0 1.57 0"/>
           <geometry><mesh filename="$(find prosthesis_description)/meshes/SupportThumb.stl"/></geometry>
       </collision>
+      <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:inertial_box>
+    </link>
+    <link name="link_thumb_1_y">
       <xacro:inertial_box mass="0.01" x="${thumb_metacarpal_length}" y="${thumb_metacarpal_width}" z="${thumb_metacarpal_depth}">
           <origin xyz="0 0 0" rpy="0 0 0"/>
       </xacro:inertial_box>
@@ -347,46 +357,52 @@
 
     <!-- ===== JOINTS ===== -->
     <!-- World → Base X (prismatic joint for x-axis motion) -->
-    <joint name="joint_world_to_base_x" type="prismatic">
+    <joint name="joint_base_x" type="prismatic">
           <origin xyz="0 0 0" rpy="0 0 0"/>
           <parent link="world"/>
-          <child link="base_link_x_frame"/>
+          <child link="link_base_x"/>
           <axis xyz="1 0 0"/>
           <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base X → Base Y (prismatic joint for y-axis motion) -->
-    <joint name="joint_base_x_to_base_y" type="prismatic">
+    <joint name="joint_base_y" type="prismatic">
           <origin xyz="0 0 0" rpy="0 0 0"/>
-          <parent link="base_link_x_frame"/>
-          <child link="base_link_y_frame"/>
+          <parent link="link_base_x"/>
+          <child link="link_base_y"/>
           <axis xyz="0 1 0"/>
           <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base Y → Base Link (prismatic joint for z-axis motion) -->
-    <joint name="joint_base_y_to_base_z" type="prismatic">
+    <joint name="joint_base_z" type="prismatic">
           <origin xyz="0 0 0" rpy="0 0 0"/>
-          <parent link="base_link_y_frame"/>
-          <child link="base_link"/>
+          <parent link="link_base_y"/>
+          <child link="link_base_z"/>
           <axis xyz="0 0 1"/>
           <limit lower="0.0" upper="1000" effort="100" velocity="1.0"/>
     </joint>
 
     <!-- Base → Wrist -->
     <joint name="joint_base_to_wrist" type="fixed">
-      <parent link="base_link"/>
-      <child  link="wrist_link"/>
+      <parent link="link_base_z"/>
+      <child  link="link_wrist_x"/>
       <origin xyz="0 0 ${wrist_radius}" rpy="0 0 0"/>
     </joint>
 
     <!-- Wrist → Palm -->
-    <joint name="joint_wrist_to_palm" type="revolute">
-      <parent link="wrist_link"/>
-      <child  link="palm_link"/>
+    <joint name="joint_wrist_x" type="revolute">
+      <parent link="link_wrist_x"/>
+      <child  link="link_wrist_y"/>
       <origin xyz="${wrist_radius*2} 0 0" rpy="0 0 0"/>
       <axis xyz="1 0 0"/>
-      <axis xyz="0 0 1"/>
+      <limit lower="-1.57" upper="1.57" effort="5" velocity="5"/>
+    </joint>
+    <joint name="joint_wrist_y" type="revolute">
+      <parent link="link_wrist_y"/>
+      <child  link="palm_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
       <limit lower="-1.57" upper="1.57" effort="5" velocity="5"/>
     </joint>
 
@@ -475,23 +491,27 @@
       <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
     </joint>
 
-    <!-- Thumb (diagonal) -->
-    <joint name="joint_thumb_1" type="revolute">
-      <parent link="palm_link"/><child link="link_thumb_1"/>
+    <!-- Thumb -->
+    <joint name="joint_thumb_1_x" type="revolute">
+      <parent link="palm_link"/><child link="link_thumb_1_x"/>
       <origin xyz="0.05 0.04 0.001" rpy="0 0 0"/><axis xyz="-1 0 0"/>
       <limit lower="0" upper="1.57" effort="3" velocity="5"/>
     </joint>
+    <joint name="joint_thumb_1_y" type="revolute">
+      <parent link="link_thumb_1_x"/><child link="link_thumb_1_y"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 -1 0"/>
+      <limit lower="0" upper="1.57" effort="3" velocity="5"/>
+    </joint>
     <joint name="joint_thumb_2" type="revolute">
-      <parent link="link_thumb_1"/><child link="link_thumb_2"/>
+      <parent link="link_thumb_1_y"/><child link="link_thumb_2"/>
       <origin xyz="-0.0055 -0.003 -0.016" rpy="0 0 0"/><axis xyz="0 -1 0"/>
       <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
     </joint>
     <joint name="joint_thumb_3" type="revolute">
       <parent link="link_thumb_2"/><child link="link_thumb_3"/>
-      <origin xyz="-0.003 0.009 -0.04" rpy="0 0 0"/><axis xyz="0 1 0"/>
+      <origin xyz="-0.003 0.009 -0.04" rpy="0 0 0"/><axis xyz="0 -1 0"/>
       <limit lower="0.0" upper="1.57" effort="2" velocity="5"/>
     </joint>
-
 
       <!-- ===== ROS2 CONTROL INTERFACE ===== -->
   <!-- Tells control_manager what hardware plugin to instanciate,
@@ -504,19 +524,19 @@
     </hardware>
 
     <!-- Base Movement Joints (X, Y, Z) -->
-    <joint name="joint_world_to_base_x">
+    <joint name="joint_base_x">
+      <command_interface name="position"/> <!-- command controller will send for position control -->
+      <state_interface name="position"/>  <!-- state controller can read -->
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_base_y">
       <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
-    <joint name="joint_base_x_to_base_y">
-      <command_interface name="position"/>
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
-    <joint name="joint_base_y_to_base_z">
+    <joint name="joint_base_z">
       <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -524,9 +544,15 @@
     </joint>
 
     <!-- Wrist Joint -->
-    <joint name="joint_wrist_to_palm">
-      <command_interface name="position"/> <!-- command controller will send for position control -->
-      <state_interface name="position"/> <!-- state controller can read -->
+    <joint name="joint_wrist_x">
+      <command_interface name="position"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_wrist_y">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
@@ -612,7 +638,13 @@
     </joint>
 
     <!-- Thumb Joints -->
-    <joint name="joint_thumb_1">
+    <joint name="joint_thumb_1_x">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_thumb_1_y">
       <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>

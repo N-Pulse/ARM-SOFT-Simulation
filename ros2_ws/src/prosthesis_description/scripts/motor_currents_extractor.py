@@ -46,12 +46,14 @@ class MotorCurrentsExtractor(Node):
         )
         '''
         self.torque_values = {
-            'wrist' : Vector3(),
+            'wrist_x' : Vector3(),
+            'wrist_y' : Vector3(),
+            'thumb_x': Vector3(),
+            'thumb_y': Vector3(),
             'index': Vector3(),
             'middle': Vector3(),
             'ring': Vector3(),
-            'little': Vector3(),
-            'thumb': Vector3()
+            'little': Vector3()
         } # should be one for each motor
 
         self.motor_torque_constant = 4/5

@@ -10,10 +10,15 @@ joint_state_broadcaster:
     type: joint_state_broadcaster/JointStateBroadcaster
     activate_on_startup: true
     joints:
-      - joint_world_to_base_x
-      - joint_base_x_to_base_y
-      - joint_base_y_to_base_z
-      - joint_wrist_to_palm
+      - joint_base_x
+      - joint_base_y
+      - joint_base_z
+      - joint_wrist_x
+      - joint_wrist_y
+      - joint_thumb_1_x
+      - joint_thumb_1_y
+      - joint_thumb_2
+      - joint_thumb_3
       - joint_index_1
       - joint_index_2
       - joint_index_3
@@ -26,9 +31,6 @@ joint_state_broadcaster:
       - joint_little_1
       - joint_little_2
       - joint_little_3
-      - joint_thumb_1
-      - joint_thumb_2
-      - joint_thumb_3
     interfaces:
       - position
       - velocity
@@ -41,10 +43,15 @@ joint_trajectory_controller:
     type: joint_trajectory_controller/JointTrajectoryController
     activate_on_startup: true
     joints:
-      - joint_world_to_base_x
-      - joint_base_x_to_base_y
-      - joint_base_y_to_base_z
-      - joint_wrist_to_palm
+      - joint_base_x
+      - joint_base_y
+      - joint_base_z
+      - joint_wrist_x
+      - joint_wrist_y
+      - joint_thumb_1_x
+      - joint_thumb_1_y
+      - joint_thumb_2
+      - joint_thumb_3
       - joint_index_1
       - joint_index_2
       - joint_index_3
@@ -57,11 +64,9 @@ joint_trajectory_controller:
       - joint_little_1
       - joint_little_2
       - joint_little_3
-      - joint_thumb_1
-      - joint_thumb_2
-      - joint_thumb_3
     command_interfaces:
       - position
     state_interfaces:
       - position
       - velocity
+    allow_partial_joints_goal: true
