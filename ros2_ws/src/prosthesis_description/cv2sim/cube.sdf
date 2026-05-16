@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="cube">
+    <link name="link_cube">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.1</ixx>
+          <iyy>0.1</iyy>
+          <izz>0.1</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision_cube">
+        <geometry>
+          <mesh>
+            <uri>cube.stl</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual_cube">
+        <geometry>
+          <mesh>
+            <uri>cube.stl</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+          <specular>1 0 0 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

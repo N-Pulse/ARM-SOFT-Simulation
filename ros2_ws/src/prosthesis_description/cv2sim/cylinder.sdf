@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="cylinder">
+    <link name="link_cylinder">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.1</ixx>
+          <iyy>0.1</iyy>
+          <izz>0.1</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision_cylinder">
+        <geometry>
+          <mesh>
+            <uri>cylinder.stl</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual_cylinder">
+        <geometry>
+          <mesh>
+            <uri>cylinder.stl</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

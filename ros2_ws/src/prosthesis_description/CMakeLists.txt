@@ -24,10 +24,10 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY launch meshes model config worlds scripts DESTINATION share/${PROJECT_NAME}
+  DIRECTORY launch meshes model config worlds scripts cv2sim DESTINATION share/${PROJECT_NAME}
 )
 install(
-  PROGRAMS scripts/keyboard_control.py scripts/trajectory_control.py scripts/motor_currents_extractor.py scripts/gamepad_control.py
+  PROGRAMS scripts/keyboard_control.py scripts/trajectory_control.py scripts/motor_currents_extractor.py scripts/gamepad_control.py cv2sim/cv_model_spawner.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
