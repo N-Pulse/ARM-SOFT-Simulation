@@ -13,6 +13,9 @@ joint_state_broadcaster:
       - joint_base_x
       - joint_base_y
       - joint_base_z
+      - joint_base_roll
+      - joint_base_pitch
+      - joint_base_yaw
       - joint_wrist_x
       - joint_wrist_y
       - joint_thumb_1_x
@@ -46,6 +49,9 @@ joint_trajectory_controller:
       - joint_base_x
       - joint_base_y
       - joint_base_z
+      - joint_base_roll
+      - joint_base_pitch
+      - joint_base_yaw
       - joint_wrist_x
       - joint_wrist_y
       - joint_thumb_1_x

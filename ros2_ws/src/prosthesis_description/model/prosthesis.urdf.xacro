@@ -16,14 +16,12 @@
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
       </inertial>
     </link>
-
     <link name="link_base_y">
       <inertial>
         <mass value="0.001"/>
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
       </inertial>
     </link>
-    
     <link name="link_base_z">
       <visual>
           <origin xyz="0 0 0" rpy="0 0 1.53"/>
@@ -36,6 +34,24 @@
       <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_depth}">
           <origin xyz="0 0 0" rpy="0 0 0"/>
       </xacro:inertial_box>
+    </link>
+    <link name="link_base_roll">
+      <inertial>
+        <mass value="0.001"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+      </inertial>
+    </link>
+    <link name="link_base_pitch"> 
+      <inertial>
+        <mass value="0.001"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+      </inertial>
+    </link>
+    <link name="link_base_yaw">
+      <inertial>
+        <mass value="0.001"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+      </inertial>
     </link>
 
     <xacro:property name="wrist_radius" value="0.01" />
@@ -362,7 +378,7 @@
           <parent link="world"/>
           <child link="link_base_x"/>
           <axis xyz="1 0 0"/>
-          <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
+          <limit lower="-1000" upper="1000" effort="100" velocity="4"/>
     </joint>
 
     <!-- Base X → Base Y (prismatic joint for y-axis motion) -->
@@ -371,7 +387,7 @@
           <parent link="link_base_x"/>
           <child link="link_base_y"/>
           <axis xyz="0 1 0"/>
-          <limit lower="-1000" upper="1000" effort="100" velocity="1.0"/>
+          <limit lower="-1000" upper="1000" effort="100" velocity="4"/>
     </joint>
 
     <!-- Base Y → Base Link (prismatic joint for z-axis motion) -->
@@ -380,12 +396,41 @@
           <parent link="link_base_y"/>
           <child link="link_base_z"/>
           <axis xyz="0 0 1"/>
-          <limit lower="0.0" upper="1000" effort="100" velocity="1.0"/>
+          <limit lower="-1000" upper="1000" effort="100" velocity="4"/>
     </joint>
+    
+    <!-- Base R → Base Link (revolute joint for roll motion) -->
+    <joint name="joint_base_roll" type="revolute">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <parent link="link_base_z"/>
+          <child link="link_base_roll"/>
+          <axis xyz="1 0 0"/>
+          <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
+    </joint>
+
+    <!-- Base P → Base Link (revolute joint for pitch motion) -->
+    <joint name="joint_base_pitch" type="revolute">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <parent link="link_base_roll"/>
+          <child link="link_base_pitch"/>
+          <axis xyz="0 1 0"/>
+          <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
+    </joint>
+
+    <!-- Base Y → Base Link (revolute joint for yaw motion) -->
+    <joint name="joint_base_yaw" type="revolute">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <parent link="link_base_pitch"/>
+          <child link="link_base_yaw"/>
+          <axis xyz="0 0 1"/>
+          <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
+    </joint>
+
+
 
     <!-- Base → Wrist -->
     <joint name="joint_base_to_wrist" type="fixed">
-      <parent link="link_base_z"/>
+      <parent link="link_base_yaw"/>
       <child  link="link_wrist_x"/>
       <origin xyz="0 0 ${wrist_radius}" rpy="0 0 0"/>
     </joint>
@@ -523,7 +568,7 @@
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
 
-    <!-- Base Movement Joints (X, Y, Z) -->
+    <!-- Base Movement Joints (x, y, z, r, p, y) -->
     <joint name="joint_base_x">
       <command_interface name="position"/> <!-- command controller will send for position control -->
       <state_interface name="position"/>  <!-- state controller can read -->
@@ -537,6 +582,24 @@
       <state_interface name="effort"/>
     </joint>
     <joint name="joint_base_z">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_base_roll">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_base_pitch">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="joint_base_yaw">
       <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>

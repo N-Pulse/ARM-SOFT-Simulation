@@ -7,7 +7,7 @@ which publishes to /arm_mvmt_goals topic or /pose_goals topic
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32MultiArray
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from std_msgs.msg import Int8
 import time
 import sys
@@ -47,7 +47,7 @@ class KeyboardControlNode(Node):
     def __init__(self):
         super().__init__('keyboard_control')
         
-        self.arm_movement_publisher_ = self.create_publisher(Float32MultiArray, 'arm_mvmt_goals', 10)
+        self.arm_movement_publisher_ = self.create_publisher(JointTrajectory, 'arm_delta_goals', 10)
         self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals', 10)
 
         self.base_step = 0.01  # meters for base joints
@@ -69,11 +69,11 @@ class KeyboardControlNode(Node):
         ║    W/S  → Z-axis (up/down)                             ║
         ║                                                        ║
         ║  HAND CONTROL:                                         ║
-        ║    1    → Open hand                                    ║
-        ║    2    → Close hand                                   ║
-        ║    3    → Pinch                                        ║
+        ║    0    → Open hand                                    ║
+        ║    1    → Close hand                                   ║
+        ║    2    → Pinch                                        ║
+        ║    3    → Wrist rotated 90° to the right               ║
         ║    4    → Wrist rotated 90° to the left                ║
-        ║    5    → Wrist rotated 90° to the right               ║
         ║                                                        ║
         ║                                                        ║
         ║  OTHER:                                                ║
@@ -87,35 +87,53 @@ class KeyboardControlNode(Node):
     def handle_input(self, key):
         """Handle keyboard input"""
         if key == 'q' or key == 'Q':
-            msg = Float32MultiArray()
-            msg.data = [0, -self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_x')
+            point = JointTrajectoryPoint()
+            point.positions.append(-self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
             self.get_logger().info(f"Sent moving goal of {-self.base_step:.3f} m along x axis")
         elif key == 'e' or key == 'E':
-            msg = Float32MultiArray()
-            msg.data = [0, self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_x')
+            point = JointTrajectoryPoint()
+            point.positions.append(self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
             self.get_logger().debug(f"Sent moving goal of {self.base_step:.3f} m along x axis")
         
         elif key == 'a' or key == 'A':
-            msg = Float32MultiArray()
-            msg.data = [1, -self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_y')
+            point = JointTrajectoryPoint()
+            point.positions.append(-self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
-            self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along y axis")
+            self.get_logger().info(f"Sent moving goal of {-self.base_step:.3f} m along y axis")
         elif key == 'd' or key == 'D':
-            msg = Float32MultiArray()
-            msg.data = [1, self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_y')
+            point = JointTrajectoryPoint()
+            point.positions.append(self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
             self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along y axis")
         
         elif key == 'w' or key == 'W':
-            msg = Float32MultiArray()
-            msg.data = [2, self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_z')
+            point = JointTrajectoryPoint()
+            point.positions.append(self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
             self.get_logger().info(f"Sent moving goal of {self.base_step:.3f} m along z axis")
         elif key == 's' or key == 'S':
-            msg = Float32MultiArray()
-            msg.data = [2, -self.base_step]
+            msg = JointTrajectory()
+            msg.joint_names.append('joint_base_z')
+            point = JointTrajectoryPoint()
+            point.positions.append(-self.base_step)
+            msg.points.append(point)
             self.arm_movement_publisher_.publish(msg)
             self.get_logger().info(f"Sent moving goal of {-self.base_step:.3f} m along z axis")
         
