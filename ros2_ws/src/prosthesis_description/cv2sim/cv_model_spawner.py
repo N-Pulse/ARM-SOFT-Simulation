@@ -8,9 +8,9 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 
-class ModelSpawnerNode(Node):
+class CvModelSpawnerNode(Node):
     def __init__(self):
-        super().__init__('model_spawner_node')
+        super().__init__('cv_model_spawner_node')
         
         self.pkg_name = 'prosthesis_description'
         self.pkg_share = get_package_share_directory(self.pkg_name)
@@ -83,7 +83,7 @@ class ModelSpawnerNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = ModelSpawnerNode()
+    node = CvModelSpawnerNode()
     rclpy.spin(node)
     rclpy.shutdown()
 
@@ -93,5 +93,5 @@ if __name__ == '__main__':
 
 '''
 For tests
-ros2 topic pub /cv/model std_msgs/Float64MultiArray "{data: [0.0, 5.0, 5.0, 0.5, 0.0, 1.2, 0.0]}"
+ros2 topic pub --once /cv/model std_msgs/Float64MultiArray "{data: [0.0, 5.0, 5.0, 0.1, 0.0, 1.2, 0.0]}"
 '''

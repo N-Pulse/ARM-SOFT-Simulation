@@ -23,6 +23,12 @@
       </inertial>
     </link>
     <link name="link_base_z">
+      <inertial>
+        <mass value="0.001"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+      </inertial>
+    </link>
+    <link name="link_base_roll">
       <visual>
           <origin xyz="0 0 0" rpy="0 0 1.53"/>
           <geometry><mesh filename="$(find prosthesis_description)/meshes/forearm_final.stl"/></geometry>
@@ -31,13 +37,8 @@
           <origin xyz="0 0 0" rpy="0 0 1.53"/>
           <geometry><mesh filename="$(find prosthesis_description)/meshes/forearm_final.stl"/></geometry>
       </collision>
-      <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_depth}">
-          <origin xyz="0 0 0" rpy="0 0 0"/>
-      </xacro:inertial_box>
-    </link>
-    <link name="link_base_roll">
       <inertial>
-        <mass value="0.001"/>
+        <mass value="1.0"/>
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
       </inertial>
     </link>
@@ -399,30 +400,30 @@
           <limit lower="-1000" upper="1000" effort="100" velocity="4"/>
     </joint>
     
-    <!-- Base R → Base Link (revolute joint for roll motion) -->
-    <joint name="joint_base_roll" type="revolute">
+    <!-- Base Y → Base Link (revolute joint for yaw motion - applied first for world frame) -->
+    <joint name="joint_base_yaw" type="revolute">
           <origin xyz="0 0 0" rpy="0 0 0"/>
           <parent link="link_base_z"/>
-          <child link="link_base_roll"/>
-          <axis xyz="1 0 0"/>
+          <child link="link_base_yaw"/>
+          <axis xyz="0 0 1"/>
           <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
     </joint>
 
-    <!-- Base P → Base Link (revolute joint for pitch motion) -->
+    <!-- Base P → Base Link (revolute joint for pitch motion - applied second for world frame) -->
     <joint name="joint_base_pitch" type="revolute">
           <origin xyz="0 0 0" rpy="0 0 0"/>
-          <parent link="link_base_roll"/>
+          <parent link="link_base_yaw"/>
           <child link="link_base_pitch"/>
           <axis xyz="0 1 0"/>
           <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
     </joint>
 
-    <!-- Base Y → Base Link (revolute joint for yaw motion) -->
-    <joint name="joint_base_yaw" type="revolute">
+    <!-- Base R → Base Link (revolute joint for roll motion - applied last for world frame) -->
+    <joint name="joint_base_roll" type="revolute">
           <origin xyz="0 0 0" rpy="0 0 0"/>
           <parent link="link_base_pitch"/>
-          <child link="link_base_yaw"/>
-          <axis xyz="0 0 1"/>
+          <child link="link_base_roll"/>
+          <axis xyz="1 0 0"/>
           <limit lower="-1.57" upper="1.57" effort="100" velocity="4"/>
     </joint>
 
@@ -430,7 +431,7 @@
 
     <!-- Base → Wrist -->
     <joint name="joint_base_to_wrist" type="fixed">
-      <parent link="link_base_yaw"/>
+      <parent link="link_base_roll"/>
       <child  link="link_wrist_x"/>
       <origin xyz="0 0 ${wrist_radius}" rpy="0 0 0"/>
     </joint>

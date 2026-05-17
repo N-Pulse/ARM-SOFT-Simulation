@@ -17,7 +17,7 @@
 
   <!-- Base and palm Gazebo tags -->
   
-  <gazebo reference="link_base_z">
+  <gazebo reference="link_base_roll">
     <material>Gazebo/Gray</material> <!-- Visual material used in Gazebo GUI -->
     <mu1>${base_wrist_friction}</mu1> <!-- Friction coefficients -->
     <mu2>${base_wrist_friction}</mu2>
