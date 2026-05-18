@@ -48,7 +48,7 @@ class KeyboardControlNode(Node):
         super().__init__('keyboard_control')
         
         self.arm_movement_publisher_ = self.create_publisher(JointTrajectory, 'arm_delta_goals', 10)
-        self.pose_publisher_ = self.create_publisher(Int8, 'pose_goals', 10)
+        self.pose_publisher_ = self.create_publisher(Int8, '/pose_goals', 10)
 
         self.base_step = 0.01  # meters for base joints
         

@@ -29,7 +29,7 @@ class TrajectoryControlNode(Node):
         
         self.pose_subscription_ = self.create_subscription(
             Int8,
-            'pose_goals',
+            '/pose_goals',
             self.handle_pose_goals,
             10
         )
@@ -96,13 +96,13 @@ class TrajectoryControlNode(Node):
         """open hand - all fingers move in parallel"""
         joint_updates = {}
         for i in self.index_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         for i in self.middle_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         for i in self.ring_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         for i in self.little_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         # Thumb X
         joint_updates[self.thumb_indexes[0]] = self.last_joint_states.position[5] - 1.4
         # Thumb Y
@@ -115,13 +115,13 @@ class TrajectoryControlNode(Node):
         """close hand - all fingers move in parallel"""
         joint_updates = {}
         for i in self.index_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] + 1.4
+            joint_updates[i] = self.last_joint_states.position[i] + 1.2
         for i in self.middle_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] + 1.4
+            joint_updates[i] = self.last_joint_states.position[i] + 1.2
         for i in self.ring_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] + 1.4
+            joint_updates[i] = self.last_joint_states.position[i] + 1.2
         for i in self.little_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] + 1.4
+            joint_updates[i] = self.last_joint_states.position[i] + 1.2
         # Thumb X
         joint_updates[self.thumb_indexes[0]] = self.last_joint_states.position[5] + 1.4
         
@@ -131,16 +131,16 @@ class TrajectoryControlNode(Node):
         """pinch - index and thumb close, others open (parallel execution)"""
         joint_updates = {}
         for i in self.index_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] + 1.4
+            joint_updates[i] = self.last_joint_states.position[i] + 1.2
         # Thumb Y
         for i in self.thumb_indexes[1::]:
             joint_updates[i] = self.last_joint_states.position[i] + 1.4
         for i in self.middle_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         for i in self.ring_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         for i in self.little_indexes:
-            joint_updates[i] = self.last_joint_states.position[i] - 1.4
+            joint_updates[i] = self.last_joint_states.position[i] - 1.2
         
         self.send_pose_trajectory(joint_updates, goal_name="Pinch")
 

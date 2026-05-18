@@ -18,7 +18,7 @@
   <!-- Base and palm Gazebo tags -->
   
   <gazebo reference="link_base_roll">
-    <material>Gazebo/Gray</material> <!-- Visual material used in Gazebo GUI -->
+    <material>Gazebo/Black</material> <!-- Visual material used in Gazebo GUI -->
     <mu1>${base_wrist_friction}</mu1> <!-- Friction coefficients -->
     <mu2>${base_wrist_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp> <!-- Contact stiffness -->
@@ -28,7 +28,7 @@
   </gazebo>
 
   <gazebo reference="palm_link">
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Black</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -39,7 +39,7 @@
   <!-- Index finger Gazebo tags -->
   
   <gazebo reference="link_index_1">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -49,7 +49,7 @@
   </gazebo>
 
   <gazebo reference="link_index_2">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -59,7 +59,7 @@
   </gazebo>
 
   <gazebo reference="link_index_3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -71,7 +71,7 @@
   <!-- Middle finger Gazebo tags -->
   
   <gazebo reference="link_middle_1">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -81,7 +81,7 @@
   </gazebo>
 
   <gazebo reference="link_middle_2">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -91,7 +91,7 @@
   </gazebo>
 
   <gazebo reference="link_middle_3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -103,7 +103,7 @@
   <!-- Ring finger Gazebo tags -->
   
   <gazebo reference="link_ring_1">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -113,7 +113,7 @@
   </gazebo>
 
   <gazebo reference="link_ring_2">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -123,7 +123,7 @@
   </gazebo>
 
   <gazebo reference="link_ring_3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -135,7 +135,7 @@
   <!-- Little finger Gazebo tags -->
   
   <gazebo reference="link_little_1">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -145,7 +145,7 @@
   </gazebo>
 
   <gazebo reference="link_little_2">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -155,7 +155,7 @@
   </gazebo>
 
   <gazebo reference="link_little_3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -167,7 +167,7 @@
   <!-- Thumb Gazebo tags -->
   
   <gazebo reference="link_thumb_1_x">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Black</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -177,7 +177,7 @@
   </gazebo>
 
   <gazebo reference="link_thumb_2">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Gray</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>
@@ -187,7 +187,7 @@
   </gazebo>
 
   <gazebo reference="link_thumb_3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
     <mu1>${palm_fingers_friction}</mu1>
     <mu2>${palm_fingers_friction}</mu2>
     <kp>${rigid_stiffness_default}</kp>

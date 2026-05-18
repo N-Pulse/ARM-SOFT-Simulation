@@ -4,27 +4,30 @@
     <!-- ==== PROSTHESIS VALUES ==== -->
     
     <!-- Dimensions for each link -->
-    <xacro:property name="base_length" value="0.174" />
-    <xacro:property name="base_width" value="0.065" />
-    <xacro:property name="base_depth" value="0.101" />
-    <xacro:property name="palm_length" value="0.068" />
-    <xacro:property name="palm_width" value="0.098" />
-    <xacro:property name="palm_depth" value="0.019" />
-    <xacro:property name="finger_proximal_length" value="0.025" />
+    <xacro:property name="base_length" value="0.19" />
+    <xacro:property name="base_width" value="0.069" />
+    <xacro:property name="base_depth" value="0.051" />
+    <xacro:property name="palm_length" value="0.092" />
+    <xacro:property name="palm_width" value="0.096" />
+    <xacro:property name="palm_depth" value="0.03" />
+    <xacro:property name="finger_proximal_length" value="0.028" />
     <xacro:property name="finger_proximal_width" value="0.015" />
-    <xacro:property name="finger_proximal_depth" value="0.012" />
-    <xacro:property name="finger_middle_length" value="0.05" />
+    <xacro:property name="finger_proximal_depth" value="0.015" />
+    <xacro:property name="finger_middle_length" value="0.02" />
     <xacro:property name="finger_middle_width" value="0.015" />
-    <xacro:property name="finger_middle_depth" value="0.012" />
+    <xacro:property name="finger_middle_depth" value="0.015" />
+    <xacro:property name="finger_distal_length" value="0.025" />
+    <xacro:property name="finger_distal_width" value="0.015" />
+    <xacro:property name="finger_distal_depth" value="0.015" />
     <xacro:property name="thumb_metacarpal_length" value="0.01" /> 
     <xacro:property name="thumb_metacarpal_width" value="0.015" />
-    <xacro:property name="thumb_metacarpal_depth" value="0.012" />
+    <xacro:property name="thumb_metacarpal_depth" value="0.015" />
     <xacro:property name="thumb_proximal_length" value="0.025" />
     <xacro:property name="thumb_proximal_width" value="0.015" />
-    <xacro:property name="thumb_proximal_depth" value="0.012" />
+    <xacro:property name="thumb_proximal_depth" value="0.015" />
     <xacro:property name="thumb_distal_length" value="0.020" />
     <xacro:property name="thumb_distal_width" value="0.015" />
-    <xacro:property name="thumb_distal_depth" value="0.012" />
+    <xacro:property name="thumb_distal_depth" value="0.015" />
 
     <!-- MCP X and Y positions for each finger relative to palm_link -->
     <xacro:property name="mcp_x" value="${palm_length}" />
